@@ -45,11 +45,11 @@ export const  UserValidator = (req : Request, res: Response) => {
     
 }
 
-export const UserExists = (id : string | number) =>{
+export const UserExists = (id : string | number) =>{ // devolver booleano, cambiar a service
     if(IdValidator(id)){
         const userService = new UserService();
         if(typeof id !== "number"){
-            return userService.fetchById(parseInt(id))
+            return userService.fetchById(parseInt(id)) 
         }else{
             return userService.fetchById(id)
         }
@@ -60,7 +60,5 @@ export const UserExists = (id : string | number) =>{
 }
 
 export const UpdateUserValidator = (req : Request, res : Response) => {
-    // return (UserValidator(req, res) && UserExists(req, res))
     return(UserValidator(req , res) === "Correct" && UserExists(req.body.user_id) !== "Id incorrecto")
-        
 }

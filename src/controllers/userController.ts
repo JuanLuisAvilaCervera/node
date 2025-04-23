@@ -4,10 +4,12 @@ import { UserService } from '../services/userService';
 import { UpdateUserValidator, UserExists, UserValidator } from '../validators/userValidator';
 import { IdValidator } from '../validators/idValidator';
 
+
+
 export const usersRouter = Router();
 const userService = new UserService();
 
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); // import
 const jsonParser = bodyParser.json();
 
 usersRouter.get('/', async(req : Request , res: Response) => {
@@ -33,7 +35,7 @@ usersRouter.post('/create', jsonParser , async(req : Request , res: Response) =>
         return res.status(201).json("Created");
 
     }else{
-        return res.status(400).json("No funciona")
+        return res.status(400).json({message: "No funciona"}) // Cambiar comentarios
     }
 
 })
@@ -45,11 +47,23 @@ usersRouter.put('/update', jsonParser , async(req :Request , res : Response) => 
         if(updatedUser !== "Usuario no existente"){
             return res.status(202).json(updatedUser);
         }else{
-            return res.status(400).json("Usuario no existente")
+            return res.status(400).json({ message: "Usuario no existente"})
         }
         
 
     }else{
-        return res.status(400).json("No funciona")
+        return res.status(400).json({message: "No funciona"})
+    }
+})
+
+usersRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) => {
+
+    if(UserExists(req.params.id) !== "Id incorrecto"){
+
+        const remainingList = typeof req.params.id !== "number" ? await userService.deleteId(parseInt(req.params.id)) : await userService.deleteId(req.params.id);
+        
+        return res.status(202).json(remainingList);
+    }else{
+        return  res.status(400).json({message: "Id no existente"})
     }
 })

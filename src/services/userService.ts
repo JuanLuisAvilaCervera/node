@@ -7,25 +7,17 @@ export class UserService{
     private userList : UserInterface[] = [];
 
     constructor() {
-        this.userList = [];
+        this.userList = [...Users];
     }
 
     async fetchAll(){
-        this.userList.push( ...Users);
         return this.userList;
     }
 
     public async fetchById(id : number){
-
-        console.log("Id: " +id + " " + typeof id)
-        this.userList.push( ...Users);
         const userFetchedArray = this.userList.filter((user) => user.user_id === id)
+        return userFetchedArray.length > 0 ? this.userList.filter((user) => user.user_id === id)[0] : "Usuario no existente";
 
-        if(userFetchedArray.length > 0){
-            return this.userList.filter((user) => user.user_id === id)[0];
-        }else{
-            return "Usuario no existente";
-        }
     }
 
     async create(user : UserInterface){
@@ -34,8 +26,6 @@ export class UserService{
     }
 
     async update(updatedUser : UserInterface){
-
-        console.log("Updated id : " + updatedUser.user_id)
 
         const oldUser = await this.fetchById(updatedUser.user_id);
 
@@ -53,6 +43,15 @@ export class UserService{
         }else{
             return "Usuario no existente"
         }
+    }
+    
+
+    async deleteId(id : number){
+        console.log(id)
+        const deletedUser = this.userList.filter((user) => user.user_id === id);
+        console.log(deletedUser[0])
+        this.userList = this.userList.filter((user) => user.user_id !== id )
+        return this.userList
     }
 
 
