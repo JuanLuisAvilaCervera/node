@@ -9,12 +9,12 @@ const contactService = new ContactService();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-contactsRouter.get('/', async(req : Request , res: Response) => {
+contactsRouter.get('/', async(req : Request , res: Response) : Promise<any> => {
     const contactList = await contactService.fetchAll();
     return res.status(200).json(contactList)
 })
 
-contactsRouter.get('/:id', async(req : Request , res: Response) => {
+contactsRouter.get('/:id', async(req : Request , res: Response) : Promise<any> => {
 
     if(IdValidator(req.params.id)){
         const contact = await contactService.fetchById(parseInt(req.params.id));
@@ -25,10 +25,10 @@ contactsRouter.get('/:id', async(req : Request , res: Response) => {
     
 })
 
-contactsRouter.post('/create', jsonParser , async(req : Request , res: Response) => {
+contactsRouter.post('/create', jsonParser , async(req : Request , res: Response) : Promise<any> => {
 
     if(contactValidator(req, res) && contactExists(req.body.contact_id) === "Id incorrecto"){
-        await contactService.create(req);
+        await contactService.create(req.body);
         return res.status(201).json("Created");
 
     }else{
@@ -38,7 +38,7 @@ contactsRouter.post('/create', jsonParser , async(req : Request , res: Response)
 
 })
 
-contactsRouter.put('/update', jsonParser , async(req :Request , res : Response) => {
+contactsRouter.put('/update', jsonParser , async(req :Request , res : Response) : Promise<any> => {
 
     if(UpdatecontactValidator(req, res)){
         const updatedcontact = await contactService.update(req.body);
@@ -54,7 +54,7 @@ contactsRouter.put('/update', jsonParser , async(req :Request , res : Response) 
     }
 })
 
-contactsRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) => {
+contactsRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) : Promise<any> => {
 
     if(contactExists(req.params.id) !== "Id incorrecto"){
 
