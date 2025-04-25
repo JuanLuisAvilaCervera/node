@@ -13,7 +13,6 @@ export const  contactValidator = (req : Request, res: Response) => {
         archived
     } = req.body as ContactInterface;
 
-    
     if(typeof contact_id !== "number"){
         return "Contact Id must be a number"
     }
@@ -21,7 +20,6 @@ export const  contactValidator = (req : Request, res: Response) => {
     if(typeof client_id !== "number"){
         return "Client Id must be a number"
     }
-
 
     // if( Object.prototype.toString.call(comment_date) === '[object Date]'){
     //     return  "Comment date must be a Date"
@@ -42,12 +40,7 @@ export const  contactValidator = (req : Request, res: Response) => {
     if(typeof archived !== "boolean"){
         return "Archived must be a boolean"
     }
-
-    
-
     return "Correct";
-
-    
 }
 
 export const contactExists = (id : string | number) =>{
@@ -65,7 +58,5 @@ export const contactExists = (id : string | number) =>{
 }
 
 export const UpdatecontactValidator = (req : Request, res : Response) => {
-    // return (contactValidator(req, res) && contactExists(req, res))
     return(contactValidator(req , res) === "Correct" && contactExists(req.body.contact_id) !== "Id incorrecto")
-        
 }

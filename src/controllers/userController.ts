@@ -3,16 +3,6 @@ import Users from '../data/Users.json'
 import { UserService } from '../services/userService';
 import { UpdateUserValidator, UserExists, UserValidator } from '../validators/userValidator';
 import { IdValidator } from '../validators/idValidator';
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-process.env.TOKEN_SECRET;
-
-function generateAccessToken(username) {
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
-}
 
 
 export const usersRouter = Router();

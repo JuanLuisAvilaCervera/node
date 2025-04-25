@@ -1,19 +1,24 @@
 import jwt from "jsonwebtoken"
+import { Request , Response, Router } from "express";
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+export const loginRouter = Router();
 
-  if (token == null) return res.sendStatus(401)
+const bodyParser = require('body-parser'); // import
+const jsonParser = bodyParser.json();
 
-  jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-    console.log(err)
+loginRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
+    
+  if(req.body.username === "admin" && req.body.password === "admin"){
+    
+    const token = generateAccessToken(req.body.username);
 
-    if (err) return res.sendStatus(403)
+    return res.status(200).send(token);
 
-    req.user = user
+  }
 
-    next()
-  })
+})
+
+function generateAccessToken(username : string) {
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
 }
 
