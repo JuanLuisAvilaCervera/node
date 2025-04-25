@@ -15,8 +15,7 @@ export class UserService{
     }
 
     public async fetchById(id : number){
-        const userFetchedArray = this.userList.filter((user) => user.user_id === id)
-        return userFetchedArray.length > 0 ? this.userList.filter((user) => user.user_id === id)[0] : "Usuario no existente";
+        return this.userList.findIndex((user) => user.user_id === id);
 
     }
 
@@ -27,22 +26,18 @@ export class UserService{
 
     async update(updatedUser : UserInterface){
 
-        const oldUser = await this.fetchById(updatedUser.user_id);
-
-        if( oldUser !== "Usuario no existente"){
-            
-            oldUser.first_name = updatedUser.first_name;
-            oldUser.last_name = updatedUser.last_name;
-            oldUser.start_date = updatedUser.start_date;
-            oldUser.email = updatedUser.email;
-            oldUser.contact = updatedUser.contact;
-            oldUser.job_description = updatedUser.job_description;
-            oldUser.photo = updatedUser.photo;
-            oldUser.active = updatedUser.active;
-            return oldUser;
-        }else{
-            return "Usuario no existente"
-        }
+        const fetchedId = await this.fetchById(updatedUser.user_id);
+        const oldUser = this.userList[fetchedId]
+        
+        oldUser.first_name = updatedUser.first_name;
+        oldUser.last_name = updatedUser.last_name;
+        oldUser.start_date = updatedUser.start_date;
+        oldUser.email = updatedUser.email;
+        oldUser.contact = updatedUser.contact;
+        oldUser.job_description = updatedUser.job_description;
+        oldUser.photo = updatedUser.photo;
+        oldUser.active = updatedUser.active;
+        return oldUser;
     }
     
 
@@ -53,6 +48,7 @@ export class UserService{
         this.userList = this.userList.filter((user) => user.user_id !== id )
         return this.userList
     }
+    
 
 
 }

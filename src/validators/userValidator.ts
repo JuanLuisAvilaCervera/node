@@ -40,25 +40,41 @@ export const  UserValidator = (req : Request, res: Response) => {
         return  "Start date must be a Date"
     }
 
+    if( typeof email !== "string"){
+        return  "Start date must be a Date"
+    }
+
+    if( typeof job_description !== "string"){
+        return  "Start date must be a Date"
+    }
+
+    if( typeof contact !== "string"){
+        return  "Start date must be a Date"
+    }
+
+    if( typeof active !== "string"){
+        return  "Start date must be a Date"
+    }
+
     return "Correct";
 
     
 }
 
-export const UserExists = (id : string | number) =>{ // devolver booleano, cambiar a service
+export const UserExists = async (id : string | number) =>{
     if(IdValidator(id)){
         const userService = new UserService();
         if(typeof id !== "number"){
-            return userService.fetchById(parseInt(id)) 
+            return await userService.fetchById(parseInt(id)) !== -1
         }else{
-            return userService.fetchById(id)
+            return await userService.fetchById(id) != -1
         }
         
     }else{
-        return "Id incorrecto"
+        return false
     }
 }
 
-export const UpdateUserValidator = (req : Request, res : Response) => {
-    return(UserValidator(req , res) === "Correct" && UserExists(req.body.user_id) !== "Id incorrecto")
+export const UpdateUserValidator = async (req : Request, res : Response) => {
+    return(UserValidator(req , res) === "Correct" && await UserExists(req.body.user_id))
 }

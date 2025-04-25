@@ -4,11 +4,12 @@ import { BookingService } from '../services/bookingService';
 import { UpdateBookingValidator, BookingExists, BookingValidator } from '../validators/bookingValidator';
 import { IdValidator } from '../validators/idValidator';
 
+import bodyParser from 'body-parser';
+
 
 export const bookingsRouter = Router();
 const bookingService = new BookingService();
 
-const bodyParser = require('body-parser'); // import
 const jsonParser = bodyParser.json();
 
 bookingsRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
@@ -21,20 +22,18 @@ bookingsRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=>
     if(IdValidator(req.params.id)){
         const booking = await bookingService.fetchById(parseInt(req.params.id));
         return res.status(200).json(booking)
-    }else{
-
     }
     
 })
 
 bookingsRouter.post('/create', jsonParser , async(req : Request , res: Response) : Promise<any> => {
 
-    if(BookingValidator(req, res) && BookingExists(req.body.booking_id) === "Id incorrecto"){
+    if(BookingValidator(req, res) && await BookingExists(req.body.booking_id)){
         await bookingService.create(req.body);
         return res.status(201).json("Created");
 
     }else{
-        return res.status(400).json({message: "No funciona"}) // Cambiar comentarios
+        return res.status(400).json({message: "Cannot create Booking, Booking not valid or existing booking"})
     }
 
 })
@@ -43,26 +42,20 @@ bookingsRouter.put('/update', jsonParser , async(req :Request , res : Response) 
 
     if(UpdateBookingValidator(req, res)){
         const updatedBooking = await bookingService.update(req.body);
-        if(updatedBooking !== "Usuario no existente"){
-            return res.status(202).json(updatedBooking);
-        }else{
-            return res.status(400).json({ message: "Usuario no existente"})
-        }
-        
-
+        return res.status(202).json(updatedBooking);
     }else{
-        return res.status(400).json({message: "No funciona"})
+        return res.status(400).json({message: "Cannot update Booking, Booking not valid or non existing Booking"})
     }
 })
 
 bookingsRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) : Promise<any> => {
 
-    if(BookingExists(req.params.id) !== "Id incorrecto"){
+    if(await BookingExists(req.params.id)){
 
         const remainingList = typeof req.params.id !== "number" ? await bookingService.deleteId(parseInt(req.params.id)) : await bookingService.deleteId(req.params.id);
         
         return res.status(202).json(remainingList);
     }else{
-        return  res.status(400).json({message: "Id no existente"})
+        return  res.status(400).json({message: "Non existing Booking"})
     }
 })

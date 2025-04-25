@@ -3,10 +3,11 @@ import { UpdatecontactValidator, contactExists, contactValidator } from '../vali
 import { IdValidator } from '../validators/idValidator';
 import { ContactService } from '../services/contactService';
 
+import bodyParser from 'body-parser';
+
 export const contactsRouter = Router();
 const contactService = new ContactService();
 
-const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 contactsRouter.get('/', async(req : Request , res: Response) : Promise<any> => {

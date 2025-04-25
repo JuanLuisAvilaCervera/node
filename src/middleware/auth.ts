@@ -6,7 +6,8 @@ export const loginRouter = Router();
 const bodyParser = require('body-parser'); // import
 const jsonParser = bodyParser.json();
 
-loginRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
+loginRouter.get('/', jsonParser, async(req : Request , res: Response) : Promise<any>=> {
+
     
   if(req.body.username === "admin" && req.body.password === "admin"){
     
@@ -19,6 +20,6 @@ loginRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
 })
 
 function generateAccessToken(username : string) {
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1h' });
 }
 

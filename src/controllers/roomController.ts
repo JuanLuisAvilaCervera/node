@@ -3,15 +3,14 @@ import Rooms from '../data/Rooms.json'
 import { RoomService } from '../services/roomService';
 import { UpdateRoomValidator, RoomExists, RoomValidator } from '../validators/roomValidator';
 import { IdValidator } from '../validators/idValidator';
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
+
+import bodyParser from 'body-parser';
 
 
 export const roomsRouter = Router();
 const roomService = new RoomService();
 
-const bodyParser = require('body-parser'); // import
 const jsonParser = bodyParser.json();
 
 roomsRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {

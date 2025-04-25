@@ -15,9 +15,7 @@ export class BookingService{
     }
 
     public async fetchById(id : number){
-        const bookingFetchedArray = this.bookingList.filter((booking) => booking.booking_id === id)
-        return bookingFetchedArray.length > 0 ? this.bookingList.filter((booking) => booking.booking_id === id)[0] : "Usuario no existente";
-
+        return this.bookingList.findIndex((booking) => booking.booking_id === id);
     }
 
     async create(booking : BookingInterface){
@@ -27,21 +25,17 @@ export class BookingService{
 
     async update(updatedBooking : BookingInterface){
 
-        const oldBooking = await this.fetchById(updatedBooking.booking_id);
-
-        if( oldBooking !== "Usuario no existente"){
-            
-            oldBooking.client_id = updatedBooking.client_id;
-            oldBooking.room_id = updatedBooking.room_id;
-            oldBooking.order_date = updatedBooking.order_date;
-            oldBooking.check_in_date = updatedBooking.check_in_date;
-            oldBooking.check_out_date = updatedBooking.check_out_date;
-            oldBooking.status = updatedBooking.status;
-            oldBooking.special_request = updatedBooking.special_request;
-            return oldBooking;
-        }else{
-            return "Usuario no existente"
-        }
+        const bookingId = await this.fetchById(updatedBooking.booking_id)
+        const oldBooking = this.bookingList[bookingId]
+        
+        oldBooking.client_id = updatedBooking.client_id;
+        oldBooking.room_id = updatedBooking.room_id;
+        oldBooking.order_date = updatedBooking.order_date;
+        oldBooking.check_in_date = updatedBooking.check_in_date;
+        oldBooking.check_out_date = updatedBooking.check_out_date;
+        oldBooking.status = updatedBooking.status;
+        oldBooking.special_request = updatedBooking.special_request;
+        return oldBooking;
     }
     
 

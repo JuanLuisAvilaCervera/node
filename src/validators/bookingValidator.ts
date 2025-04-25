@@ -55,20 +55,20 @@ export const  BookingValidator = (req : Request, res: Response) => {
     
 }
 
-export const BookingExists = (id : string | number) =>{ // devolver booleano, cambiar a service
+export const  BookingExists = async (id : string | number) =>{ 
     if(IdValidator(id)){
         const bookingService = new BookingService();
         if(typeof id !== "number"){
-            return bookingService.fetchById(parseInt(id)) 
+            return await  bookingService.fetchById(parseInt(id)) !== -1;
         }else{
-            return bookingService.fetchById(id)
+            return await bookingService.fetchById(id) !== -1;
         }
         
     }else{
-        return "Id incorrecto"
+        return false
     }
 }
 
 export const UpdateBookingValidator = (req : Request, res : Response) => {
-    return(BookingValidator(req , res) === "Correct" && BookingExists(req.body.booking_id) !== "Id incorrecto")
+    return(BookingValidator(req , res) === "Correct" && BookingExists(req.body.booking_id))
 }
