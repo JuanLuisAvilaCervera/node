@@ -11,11 +11,13 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.9",
     "nodemon": "^3.1.9"
   },
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "tsc",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "typecheck":"tsc --noEmit"
   }
 }

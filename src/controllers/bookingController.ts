@@ -22,6 +22,8 @@ bookingsRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=>
     if(IdValidator(req.params.id)){
         const booking = await bookingService.fetchById(parseInt(req.params.id));
         return res.status(200).json(booking)
+    }else{
+        
     }
     
 })
