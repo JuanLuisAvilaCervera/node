@@ -4,17 +4,22 @@ import { Request, Response } from "express"
 
 export function authenticateToken(req : Request, res : Response, next : () => void) {
   const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+  const token = authHeader?.split(' ')[1]
 
   if (token == null) return res.sendStatus(401)
 
-  jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-    console.log(err)
+  if(verifyPassword(req.user , "admin")){
+    jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
+      console.log(err)
 
-    if (err) return res.sendStatus(403)
+      if (err) return res.sendStatus(403)
 
-    req.user = user
+      next()
+    })
+  }
 
-    next()
-  })
+}
+
+const verifyPassword = (user : string , password: string) : boolean => {
+  return true;
 }
