@@ -1,10 +1,11 @@
-import express , { RequestHandler} from "express";
+import express , { json, Request, RequestHandler} from "express";
 import { usersRouter } from "./controllers/userController";
 import { contactsRouter } from "./controllers/contactController";
 import { roomsRouter } from "./controllers/roomController";
 import { bookingsRouter } from "./controllers/bookingController";
 import { authenticateToken } from "./middleware/auth";
-import ServerlessHttp from "serverless-http";
+import mongoose from "mongoose";
+import serverless from "serverless-http";
 
 declare module 'express' {
     export interface Request {
@@ -14,19 +15,37 @@ declare module 'express' {
 
 const app = express();
 
-app.use(authenticateToken as RequestHandler);
+// app.use(authenticateToken as RequestHandler);
 
-const handler = ServerlessHttp(app, { provider: 'azure' });
-module.exports.funcName = async (context : any, req : Request) => {
-  context.res = await handler(context, req);
-}
+// export const handler = () => {
+//     start().then( () => {
+//         serverless(app)
+//         app.use(json());
+//         app.use("/users", usersRouter);
+//         app.use("/contacts", contactsRouter)
+//         app.use("/rooms", roomsRouter)
+//         app.use("/bookings", bookingsRouter)
+//     })
+    
+// } 
 
-
+app.use(json());
 app.use("/users", usersRouter);
 app.use("/contacts", contactsRouter)
 app.use("/rooms", roomsRouter)
 app.use("/bookings", bookingsRouter)
 
-app.listen(3000 , () => {
-    console.log("Server is running")
-})
+
+const start = async () => {
+    try{
+        await mongoose.connect(
+            "mongodb+srv://juanluisavilacervera44:GV9nXFY1kI9mGi9R@mirandacluster.gsus0k2.mongodb.net/"
+        )
+    } catch (error){
+
+        console.error("error mongo: " , error);
+        process.exit(1);
+    }
+}
+start()
+app.listen(3000);

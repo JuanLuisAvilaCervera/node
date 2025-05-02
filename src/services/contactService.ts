@@ -45,7 +45,6 @@ export class ContactService{
 
     async deleteId(id : number){
         const deletedcontact = this.contactList.filter((contact) => contact.contact_id === id);
-        console.log(deletedcontact[0])
         this.contactList = this.contactList.filter((contact) => contact.contact_id !== id )
         return this.contactList
     }

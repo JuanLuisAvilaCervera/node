@@ -42,9 +42,7 @@ export class UserService{
     
 
     async deleteId(id : number){
-        console.log(id)
         const deletedUser = this.userList.filter((user) => user.user_id === id);
-        console.log(deletedUser[0])
         this.userList = this.userList.filter((user) => user.user_id !== id )
         return this.userList
     }
