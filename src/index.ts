@@ -6,6 +6,7 @@ import { bookingsRouter } from "./controllers/bookingController";
 import { authenticateToken } from "./middleware/auth";
 import mongoose from "mongoose";
 import serverless from "serverless-http";
+import tankRouter from "./controllers/tankController";
 
 declare module 'express' {
     export interface Request {
@@ -30,6 +31,7 @@ const app = express();
 // } 
 
 app.use(json());
+app.use("/tanks", tankRouter);
 app.use("/users", usersRouter);
 app.use("/contacts", contactsRouter)
 app.use("/rooms", roomsRouter)

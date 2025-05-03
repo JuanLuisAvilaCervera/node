@@ -16,10 +16,12 @@ export class RoomService{
 
     async fetchAll(){
         // return this.roomList;
+        console.log(Room.find())
         return Room.find();
     }
 
     public async fetchById(id : number){
+        console.log(id)
         const roomFetchedArray = this.roomList.filter((room) => room.room_id === id)
         return roomFetchedArray.length > 0 ? this.roomList.filter((room) => room.room_id === id)[0] : "Usuario no existente";
         
@@ -71,7 +73,7 @@ export class RoomService{
     }
     
     UpdateRoomValidator = (req : Request, res : Response) => {
-        return(RoomValidator( req, res) === "Correct" && this.RoomExists(req.body.user_id) !== "Id incorrecto")
+        return(RoomValidator( req, res) === "Correct" && this.RoomExists(req.body.room_id !== null ? req.body.room_id : {}) !== "Id incorrecto")
     }
 
     

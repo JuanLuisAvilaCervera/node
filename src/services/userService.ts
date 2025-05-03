@@ -1,6 +1,7 @@
 import { UserInterface } from "../interfaces/userInterface";
 import { UserValidator } from "../validators/userValidator";
 import Users from "../data/Users.json"
+import { User } from "../models/userSchema";
 
 export class UserService{
 
@@ -11,7 +12,8 @@ export class UserService{
     }
 
     async fetchAll(){
-        return this.userList;
+        console.log(User.find())
+        return User.find();
     }
 
     public async fetchById(id : number){

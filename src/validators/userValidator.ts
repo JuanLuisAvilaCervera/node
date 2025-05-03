@@ -41,19 +41,19 @@ export const  UserValidator = (req : Request, res: Response) => {
     }
 
     if( typeof email !== "string"){
-        return  "Start date must be a Date"
+        return  "Email must be a string"
     }
 
     if( typeof job_description !== "string"){
-        return  "Start date must be a Date"
+        return  "Job Description must be a string"
     }
 
     if( typeof contact !== "string"){
-        return  "Start date must be a Date"
+        return  "Contact must be a String"
     }
 
-    if( typeof active !== "string"){
-        return  "Start date must be a Date"
+    if( typeof active !== "boolean"){
+        return  "Active must be boolean"
     }
 
     return "Correct";

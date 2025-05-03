@@ -1,6 +1,6 @@
 
 interface RoomInterface {
-    room_id : number,
+    room_id: number,
     room_type: string,
     description : string,
     photos: null,
