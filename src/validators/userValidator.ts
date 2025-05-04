@@ -5,7 +5,6 @@ import { UserService } from "../services/userService";
 
 export const  UserValidator = (req : Request, res: Response) => {
     const {
-        user_id , 
         first_name, 
         last_name, 
         photo, 
@@ -16,10 +15,6 @@ export const  UserValidator = (req : Request, res: Response) => {
         active
     } = req.body as UserInterface;
 
-    
-    if(typeof user_id !== "number"){
-        return "User Id must be a number"
-    }
 
     if(typeof first_name !== "string"){
         return "First name must be a string"
@@ -61,20 +56,20 @@ export const  UserValidator = (req : Request, res: Response) => {
     
 }
 
-export const UserExists = async (id : string | number) =>{
-    if(IdValidator(id)){
+export const UserExists = async (email : string) =>{
+    if(IdValidator(email)){
         const userService = new UserService();
-        if(typeof id !== "number"){
-            return await userService.fetchById(parseInt(id)) !== -1
+        if(typeof email !== "number"){
+            return await userService.fetchOne(email)
         }else{
-            return await userService.fetchById(id) != -1
+            return await userService.fetchOne(email)
         }
         
     }else{
-        return false
+        return []
     }
 }
 
 export const UpdateUserValidator = async (req : Request, res : Response) => {
-    return(UserValidator(req , res) === "Correct" && await UserExists(req.body.user_id))
+    return(UserValidator(req , res) === "Correct" && await UserExists(req.body.email))
 }

@@ -16,37 +16,32 @@ export class UserService{
         return User.find();
     }
 
-    public async fetchById(id : number){
-        return this.userList.findIndex((user) => user.user_id === id);
+    public async fetchOne(email : string){
+        return User.findOne({email: email})
 
     }
 
     async create(user : UserInterface){
         this.userList.push(user)
-        return user;
+        return User.create(user);
     }
 
     async update(updatedUser : UserInterface){
-
-        const fetchedId = await this.fetchById(updatedUser.user_id);
-        const oldUser = this.userList[fetchedId]
-        
-        oldUser.first_name = updatedUser.first_name;
-        oldUser.last_name = updatedUser.last_name;
-        oldUser.start_date = updatedUser.start_date;
-        oldUser.email = updatedUser.email;
-        oldUser.contact = updatedUser.contact;
-        oldUser.job_description = updatedUser.job_description;
-        oldUser.photo = updatedUser.photo;
-        oldUser.active = updatedUser.active;
-        return oldUser;
+        return User.updateOne({email: updatedUser.email}, 
+        {
+            first_name: updatedUser.first_name ,
+            last_name : updatedUser.last_name ,
+            photo : updatedUser.photo,
+            active: updatedUser.active ,
+            job_description : updatedUser.job_description ,
+            contact : updatedUser.contact ,
+            start_date : updatedUser.start_date
+        })
     }
     
 
-    async deleteId(id : number){
-        const deletedUser = this.userList.filter((user) => user.user_id === id);
-        this.userList = this.userList.filter((user) => user.user_id !== id )
-        return this.userList
+    async deletOne(email : string){
+        return User.deleteOne({email: email})
     }
     
 
