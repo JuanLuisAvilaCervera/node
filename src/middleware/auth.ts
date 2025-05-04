@@ -6,7 +6,7 @@ export function authenticateToken(req : Request, res : Response, next : () => vo
   const authHeader = req.headers['authorization']
   const token = authHeader?.split(' ')[1]
 
-  if (token == null) return res.sendStatus(401)
+  if (token == null) return res.redirect("/login")
 
   if(verifyPassword(req.user , "admin")){
     jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {

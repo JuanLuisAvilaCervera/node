@@ -41,4 +41,4 @@ const generateUsers = (num : number) => {
     return fakedUsers;
 };
 
-User.insertMany(generateUsers(30));
+User.insertMany(generateUsers(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
