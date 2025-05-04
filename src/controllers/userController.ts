@@ -12,35 +12,36 @@ const userService = new UserService();
 
 const jsonParser = bodyParser.json();
 
-usersRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
+usersRouter.get('/', async(req : Request , res: Response)=> {
     const userList = await userService.fetchAll();
+    console.log(userList.length)
     return res.status(200).json(userList)
 })
 
-usersRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=> {
+usersRouter.get('/:email', async(req : Request , res: Response)=> {
 
-    if(IdValidator(req.params.id)){
-        const user = await userService.fetchById(parseInt(req.params.id));
+    const user = await userService.fetchOne(req.params.email);
+    if(user !== null){
         return res.status(200).json(user)
     }else{
-
+        return res.status(404).json({message: "User not found"})
     }
+    
     
 })
 
-usersRouter.post('/create', jsonParser , async(req : Request , res: Response) : Promise<any> => {
+usersRouter.post('/', jsonParser , async(req : Request , res: Response) => {
 
-    if(UserValidator(req, res) && await UserExists(req.body.user_id)){
-        await userService.create(req.body);
-        return res.status(201).json("Created");
-
+    if(UserValidator(req, res)){
+        const created = await userService.create(req.body);
+        return res.status(201).json(created);
     }else{
-        return res.status(400).json({message: "User does not exist, or created User is not valid"})
+        return res.status(400).json({message: "Not valid user"})
     }
 
 })
 
-usersRouter.put('/update', jsonParser , async(req :Request , res : Response) : Promise<any> => {
+usersRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
 
     if(await UpdateUserValidator(req, res)){
         const updatedUser = await userService.update(req.body);
@@ -50,11 +51,11 @@ usersRouter.put('/update', jsonParser , async(req :Request , res : Response) : P
     }
 })
 
-usersRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) : Promise<any> => {
+usersRouter.delete('/:email', jsonParser , async(req : Request , res : Response) => {
 
-    if(await UserExists(req.params.id)){
+    if(await UserExists(req.params.email) !== null){
 
-        const remainingList = typeof req.params.id !== "number" ? await userService.deleteId(parseInt(req.params.id)) : await userService.deleteId(req.params.id);
+        const remainingList =  await userService.deletOne(req.params.email);
         
         return res.status(202).json(remainingList);
     }else{

@@ -10,8 +10,8 @@
 
 // loginRouter.get('/', jsonParser, async(req : Request , res: Response) : Promise<any>=> {
  
-//   if(req.body.username === "admin" && req.body.password === "admin"){
-//     return res.status(200).send(true);
-//   }
+// //   if(req.body.username === "admin" && req.body.password === "admin"){
+// //     return res.status(200).send(true);
+// //   }
 
 // })

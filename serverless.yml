@@ -14,10 +14,10 @@ package:
 provider:
   name: aws
   region: eu-west-3
-  runtime: nodejs18.x
+  runtime: nodejs22.x
 functions:
   app:
-    handler: dist/lambda.handler
+    handler: dist/index.handler
     events:
       - http:
           path: /

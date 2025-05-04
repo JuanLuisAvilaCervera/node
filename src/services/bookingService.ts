@@ -40,9 +40,7 @@ export class BookingService{
     
 
     async deleteId(id : number){
-        console.log(id)
         const deletedBooking = this.bookingList.filter((booking) => booking.booking_id === id);
-        console.log(deletedBooking[0])
         this.bookingList = this.bookingList.filter((booking) => booking.booking_id !== id )
         return this.bookingList
     }
