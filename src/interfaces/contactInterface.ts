@@ -1,7 +1,7 @@
+import { ClientInterface } from "./clientInterface";
 
 interface ContactInterface {
-    contact_id: number;
-    client_id : number;
+    client : ClientInterface,
     comment_date: string;
     subject: string;
     comment: string;

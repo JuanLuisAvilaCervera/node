@@ -59,17 +59,12 @@ export const  UserValidator = (req : Request, res: Response) => {
 export const UserExists = async (email : string) =>{
     if(IdValidator(email)){
         const userService = new UserService();
-        if(typeof email !== "number"){
-            return await userService.fetchOne(email)
-        }else{
-            return await userService.fetchOne(email)
-        }
-        
+        return await userService.fetchOne(email)
     }else{
-        return []
+        return null
     }
 }
 
 export const UpdateUserValidator = async (req : Request, res : Response) => {
-    return(UserValidator(req , res) === "Correct" && await UserExists(req.body.email))
+    return(UserValidator(req , res) === "Correct" && await UserExists(req.body.email) !== null)
 }
