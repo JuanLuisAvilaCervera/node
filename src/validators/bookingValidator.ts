@@ -68,7 +68,3 @@ export const  BookingExists = async (id : string | number) =>{
         return false
     }
 }
-
-export const UpdateBookingValidator = (req : Request, res : Response) => {
-    return(BookingValidator(req , res) === "Correct" && BookingExists(req.body.booking_id))
-}

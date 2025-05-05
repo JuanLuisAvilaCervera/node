@@ -48,6 +48,8 @@ export const  RoomValidator = (req : Request, res: Response) => {
         return  "Amenities must be a string"
     }
 
+    //PHOTOS
+
     return "Correct";
 
     

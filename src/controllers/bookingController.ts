@@ -12,12 +12,12 @@ const bookingService = new BookingService();
 
 const jsonParser = bodyParser.json();
 
-bookingsRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
+bookingsRouter.get('/', async(req : Request , res: Response)=> {
     const bookingList = await bookingService.fetchAll();
     return res.status(200).json(bookingList)
 })
 
-bookingsRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=> {
+bookingsRouter.get('/:id', async(req : Request , res: Response)=> {
 
     if(IdValidator(req.params.id)){
         const booking = await bookingService.fetchById(parseInt(req.params.id));
@@ -28,7 +28,7 @@ bookingsRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=>
     
 })
 
-bookingsRouter.post('/create', jsonParser , async(req : Request , res: Response) : Promise<any> => {
+bookingsRouter.post('/', jsonParser , async(req : Request , res: Response)=> {
 
     if(BookingValidator(req, res) && await BookingExists(req.body.booking_id)){
         await bookingService.create(req.body);
@@ -40,17 +40,13 @@ bookingsRouter.post('/create', jsonParser , async(req : Request , res: Response)
 
 })
 
-bookingsRouter.put('/update', jsonParser , async(req :Request , res : Response) : Promise<any> => {
+bookingsRouter.put('/', jsonParser , async(req :Request , res : Response) => {
 
-    if(UpdateBookingValidator(req, res)){
         const updatedBooking = await bookingService.update(req.body);
         return res.status(202).json(updatedBooking);
-    }else{
-        return res.status(400).json({message: "Cannot update Booking, Booking not valid or non existing Booking"})
-    }
 })
 
-bookingsRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) : Promise<any> => {
+bookingsRouter.delete('/:id', jsonParser , async(req : Request , res : Response) => {
 
     if(await BookingExists(req.params.id)){
 

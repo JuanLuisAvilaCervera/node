@@ -64,7 +64,3 @@ export const UserExists = async (email : string) =>{
         return null
     }
 }
-
-export const UpdateUserValidator = async (req : Request, res : Response) => {
-    return(UserValidator(req , res) === "Correct" && await UserExists(req.body.email) !== null)
-}

@@ -1,7 +1,7 @@
 import {Request , Response, Router} from 'express';
 import Users from '../data/Users.json'
 import { UserService } from '../services/userService';
-import { UpdateUserValidator, UserExists, UserValidator } from '../validators/userValidator';
+import {UserExists, UserValidator } from '../validators/userValidator';
 import { IdValidator } from '../validators/idValidator';
 
 import bodyParser from 'body-parser';
@@ -43,12 +43,8 @@ usersRouter.post('/', jsonParser , async(req : Request , res: Response) => {
 
 usersRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
 
-    if(await UpdateUserValidator(req, res)){
         const updatedUser = await userService.update(req.body);
         return res.status(202).json(updatedUser);
-    }else{
-        return res.status(400).json({message: "User does not exist or updated User is not valid"})
-    }
 })
 
 usersRouter.delete('/:email', jsonParser , async(req : Request , res : Response) => {
