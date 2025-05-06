@@ -7,6 +7,9 @@ import { authenticateToken } from "./middleware/auth";
 import mongoose from "mongoose";
 import serverless from "serverless-http";
 import { loginRouter } from "./controllers/loginController";
+import cors from "cors";
+
+
 
 declare module 'express' {
     export interface Request {
@@ -28,12 +31,20 @@ const app = express();
     
 // } 
 
+const corsOrigin : string = "http://localhost:5137";
+
+const corsOptions = {
+    origin: corsOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+
 app.use(json());
+app.use(cors(corsOptions));
 app.use("/login", loginRouter)
 app.use("/users", authenticateToken as RequestHandler,  usersRouter);
-app.use("/contacts", contactsRouter)
-app.use("/rooms", roomsRouter)
-app.use("/bookings", bookingsRouter)
+app.use("/contacts",authenticateToken as RequestHandler, contactsRouter)
+app.use("/rooms", authenticateToken as RequestHandler, roomsRouter)
+app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter)
 
 
 const start = async () => {

@@ -24,6 +24,3 @@ const verifyPassword = (user : string , password: string) : boolean => {
   return true;
 }
 
-const  generateAccessToken = (username : string) => {
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
-}
