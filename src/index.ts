@@ -6,6 +6,7 @@ import { bookingsRouter } from "./controllers/bookingController";
 import { authenticateToken } from "./middleware/auth";
 import mongoose from "mongoose";
 import serverless from "serverless-http";
+import { loginRouter } from "./controllers/loginController";
 
 declare module 'express' {
     export interface Request {
@@ -14,8 +15,6 @@ declare module 'express' {
 }
 
 const app = express();
-
-// app.use(authenticateToken as RequestHandler);
 
 // export const handler = () => {
 //     start().then( () => {
@@ -30,8 +29,8 @@ const app = express();
 // } 
 
 app.use(json());
-// app.use("/login")
-app.use("/users", usersRouter);
+app.use("/login", loginRouter)
+app.use("/users", authenticateToken as RequestHandler,  usersRouter);
 app.use("/contacts", contactsRouter)
 app.use("/rooms", roomsRouter)
 app.use("/bookings", bookingsRouter)

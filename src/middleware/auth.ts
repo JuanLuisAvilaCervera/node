@@ -6,7 +6,7 @@ export function authenticateToken(req : Request, res : Response, next : () => vo
   const authHeader = req.headers['authorization']
   const token = authHeader?.split(' ')[1]
 
-  if (token == null) return res.redirect("/login")
+  if (token == null) return res.sendStatus(401)
 
   if(verifyPassword(req.user , "admin")){
     jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
@@ -22,4 +22,8 @@ export function authenticateToken(req : Request, res : Response, next : () => vo
 
 const verifyPassword = (user : string , password: string) : boolean => {
   return true;
+}
+
+const  generateAccessToken = (username : string) => {
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
 }
