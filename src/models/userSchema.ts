@@ -13,4 +13,4 @@ const UserSchema = new mongoose.Schema<UserInterface>({
     active: Boolean,
 });
 
-export const User = mongoose.model("User", UserSchema, "User")
+export const User = mongoose.model("User", UserSchema)

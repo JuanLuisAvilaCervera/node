@@ -5,7 +5,7 @@ export class UserService{
 
 
     async fetchAll(){
-        return User.find();
+        return User.find().select('-_id -__v' );
     }
 
     public async fetchOne(email : string){

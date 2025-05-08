@@ -7,23 +7,23 @@ const BookingSchema = new mongoose.Schema({
     check_out_date: Date,
     status: String,
     special_request: String,
-    room: {
-        room_number: Number,
-        room_type: String,
-        description: String,
-        photos: [String],
-        offer: Boolean,
-        price: Number,
-        discount: Number,
-        cancellation_policy : String,
-        amenities: String,
-    },
-    client : {
-        first_name : String,
-        last_name : String,
-        phone : String,
-        email : String,
-    }
+    // room: {
+    //     room_number: Number,
+    //     room_type: String,
+    //     description: String,
+    //     photos: [String],
+    //     offer: Boolean,
+    //     price: Number,
+    //     discount: Number,
+    //     cancellation_policy : String,
+    //     amenities: String,
+    // },
+    // client : {
+    //     first_name : String,
+    //     last_name : String,
+    //     phone : String,
+    //     email : String,
+    // }
 });
 
 export const Booking = mongoose.model("Booking", BookingSchema)

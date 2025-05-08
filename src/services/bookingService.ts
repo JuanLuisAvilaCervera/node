@@ -4,7 +4,7 @@ import { Booking } from "../models/bookingSchema";
 export class BookingService{
 
     async fetchAll(){
-        return Booking.find()
+        return Booking.find().select('-_id -__v')
     }
 
     public async fetchById(id : number){
@@ -15,16 +15,16 @@ export class BookingService{
         return Booking.create(booking);
     }
 
-    async update(updatedBooking : BookingInterface){
-        return Booking.updateOne({booking_id : updatedBooking.booking_id}, {
-            client : updatedBooking.client,
-            room : updatedBooking.room,
-            check_in_date : updatedBooking.check_in_date,
-            check_out_date : updatedBooking.check_out_date,
-            status : updatedBooking.status,
-            special_request : updatedBooking.special_request,
-        })
-    }
+    // async update(updatedBooking : BookingInterface){
+    //     return Booking.updateOne({booking_id : updatedBooking.booking_id}, {
+    //         // client : updatedBooking.client,
+    //         // room : updatedBooking.room,
+    //         check_in_date : updatedBooking.check_in_date,
+    //         check_out_date : updatedBooking.check_out_date,
+    //         status : updatedBooking.status,
+    //         special_request : updatedBooking.special_request,
+    //     })
+    // }
     
 
     async deleteId(id : number){

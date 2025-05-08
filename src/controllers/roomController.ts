@@ -5,6 +5,7 @@ import { IdValidator } from '../validators/idValidator';
 
 
 import bodyParser from 'body-parser';
+import { Room } from '../models/roomSchema';
 
 
 export const roomsRouter = Router();
@@ -12,10 +13,10 @@ export const roomsRouter = Router();
 const jsonParser = bodyParser.json();
 
 
-roomsRouter.get('/', (req: Request, res : Response) => {
+roomsRouter.get('/', async(req: Request, res : Response) => {
     const roomService = new RoomService();
-    const roomList = roomService.fetchAll();
-    res.status(200).json(roomList);
+    const roomList = await roomService.fetchAll();
+    return res.status(200).json(roomList)
 });
 
 
@@ -31,7 +32,7 @@ roomsRouter.get('/:id', async(req : Request , res: Response)=> {
     
 })
 
-roomsRouter.post('/', jsonParser , async(req : Request , res: Response) : Promise<any> => {
+roomsRouter.post('/', jsonParser , async(req : Request , res: Response) => {
     const roomService = new RoomService();
 
     if(RoomValidator(req, res) && roomService.RoomExists(req.body.room_id) === "Id incorrecto"){
@@ -44,7 +45,7 @@ roomsRouter.post('/', jsonParser , async(req : Request , res: Response) : Promis
 
 })
 
-roomsRouter.put('/', jsonParser , async(req :Request , res : Response) : Promise<any> => {
+roomsRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
     const roomService = new RoomService();
         const updatedRoom = await roomService.update(req.body);
         if(updatedRoom !== null){
@@ -54,7 +55,7 @@ roomsRouter.put('/', jsonParser , async(req :Request , res : Response) : Promise
         }
 })
 
-roomsRouter.delete('/:number', jsonParser , async(req : Request , res : Response) : Promise<any> => {
+roomsRouter.delete('/:number', jsonParser , async(req : Request , res : Response)  => {
     const roomService = new RoomService();
     if(roomService.RoomExists(req.params.number) !== "Id incorrecto"){
 

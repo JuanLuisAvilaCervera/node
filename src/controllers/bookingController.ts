@@ -1,14 +1,14 @@
 import {Request , Response, Router} from 'express';
 import Bookings from '../data/Bookings.json'
 import { BookingService } from '../services/bookingService';
-import { UpdateBookingValidator, BookingExists, BookingValidator } from '../validators/bookingValidator';
+import { BookingExists, BookingValidator } from '../validators/bookingValidator';
 import { IdValidator } from '../validators/idValidator';
 
 import bodyParser from 'body-parser';
 
 
 export const bookingsRouter = Router();
-const bookingService = new BookingService();
+const bookingService = new BookingService(); //mover dentro de cada
 
 const jsonParser = bodyParser.json();
 

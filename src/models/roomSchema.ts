@@ -3,9 +3,7 @@ import { RoomInterface } from "../interfaces/roomInterface";
 
 const RoomSchema = new mongoose.Schema<RoomInterface>({
     room_number: Number,
-    room_type: String,
     description: String,
-    photos: [String],
     offer: Boolean,
     price: Number,
     discount: Number,
@@ -14,3 +12,12 @@ const RoomSchema = new mongoose.Schema<RoomInterface>({
 });
 
 export const Room = mongoose.model("Room", RoomSchema)
+
+// photos: {
+    //     type: [String]
+    // },
+
+    // room_type: {
+    //     type: String,
+    //     enum: ['Single Bed' , 'Double Bed' , 'Double Superior' , 'Suite']
+    // },

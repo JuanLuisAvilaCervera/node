@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
 import express from "express";
 import { json } from "body-parser";
-import { createNewUser } from "./seed";
-import { UserInterface } from "../interfaces/userInterface";
-import { User } from "../models/userSchema";
-
+import { ContactInterface } from "../interfaces/contactInterface";
+import { createNewContact } from "./seed";
+import { Contact } from "../models/contactSchema";
 
 declare module 'express' {
     export interface Request {
-        user: string;
+        contact: string;
     }
 }
 
@@ -29,17 +28,16 @@ const start = async () => {
 }
 start();
 
-const generateUsers = (num : number) => {
-    const fakedUsers = [];
+const generateContacts = (num : number) => {
+    const fakedContacts = [];
   
     for (let i = 0; i < num; i++) {
-      let fakeUser : UserInterface = createNewUser();
+      let fakeContact : ContactInterface = createNewContact();
   
-      fakedUsers.push(fakeUser);
+      fakedContacts.push(fakeContact);
     }
   
-    return fakedUsers;
+    return fakedContacts;
 };
 
-
-User.insertMany(generateUsers(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
+Contact.insertMany(generateContacts(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));

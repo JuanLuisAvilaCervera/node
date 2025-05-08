@@ -1,9 +1,7 @@
 
 interface RoomInterface {
     room_number: number,
-    room_type: string,
     description : string,
-    photos: null,
     offer: boolean,
     price: number,
     discount: number,
@@ -12,3 +10,8 @@ interface RoomInterface {
 }
 
 export {RoomInterface}
+
+    // photos : string[],
+
+    // room_type: "Single Bed" | "Double Bed" | "Double Superior" | "Suite",
+

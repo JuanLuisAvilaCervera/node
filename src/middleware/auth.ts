@@ -3,7 +3,6 @@ import { Request, Response } from "express"
 
 
 export function authenticateToken(req : Request, res : Response, next : () => void) {
-  console.log(req.headers);
   const authHeader = req.headers['authorization']
 
 

@@ -1,5 +1,3 @@
-
-import { RoomValidator } from "../validators/roomValidator";
 import { RoomInterface } from "../interfaces/roomInterface";
 import { Room } from "../models/roomSchema";
 import { IdValidator } from "../validators/idValidator";
@@ -7,7 +5,7 @@ import { IdValidator } from "../validators/idValidator";
 export class RoomService{
 
     async fetchAll(){
-        return Room.find();
+        return Room.find().select('-_id -__v');
     }
 
     public async fetchById(room_number: number){
@@ -21,9 +19,7 @@ export class RoomService{
     async update(updatedroom : RoomInterface){
         return Room.updateOne({room_number: updatedroom.room_number}, 
         {
-            room_type: updatedroom.room_type,
             description: updatedroom.description,
-            photos: updatedroom.photos,
             offer: updatedroom.offer,
             price: updatedroom.price,
             discount: updatedroom.discount,
@@ -52,3 +48,5 @@ export class RoomService{
     
 }
 
+            // photos: updatedroom.photos,
+            // room_type: updatedroom.room_type,
