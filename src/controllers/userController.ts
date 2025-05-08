@@ -14,7 +14,6 @@ const jsonParser = bodyParser.json();
 
 usersRouter.get('/', async(req : Request , res: Response)=> {
     const userList = await userService.fetchAll();
-    console.log(userList.length)
     return res.status(200).json(userList)
 })
 

@@ -8,7 +8,7 @@ interface BookingInterface {
     order_date: string,
     check_in_date:string,
     check_out_date:string,
-    status: string,
+    status: "In Progress" | "Check In" | "Check Out",
     special_request: string,
 
 }

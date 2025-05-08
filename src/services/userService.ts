@@ -3,13 +3,13 @@ import { User } from "../models/userSchema";
 
 export class UserService{
 
+
     async fetchAll(){
         return User.find();
     }
 
     public async fetchOne(email : string){
         return User.findOne({email: email})
-
     }
 
     async create(user : UserInterface){

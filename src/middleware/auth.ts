@@ -3,8 +3,20 @@ import { Request, Response } from "express"
 
 
 export function authenticateToken(req : Request, res : Response, next : () => void) {
+  console.log(req.headers);
   const authHeader = req.headers['authorization']
-  const token = authHeader?.split(' ')[1]
+
+
+  let token
+  if(authHeader !== undefined && Array.isArray(authHeader)){
+    token =  authHeader[0]!.split(' ')[1]
+  }else if(typeof authHeader === "string"){
+    console.log(authHeader)
+    token =  authHeader.split(' ')[1]
+  }else{
+    token =  null;
+  }
+  
 
   if (token == null) return res.sendStatus(401)
 

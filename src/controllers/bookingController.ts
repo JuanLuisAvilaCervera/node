@@ -30,6 +30,7 @@ bookingsRouter.get('/:id', async(req : Request , res: Response)=> {
 
 bookingsRouter.post('/', jsonParser , async(req : Request , res: Response)=> {
 
+    
     if(BookingValidator(req, res) && await BookingExists(req.body.booking_id)){
         await bookingService.create(req.body);
         return res.status(201).json("Created");

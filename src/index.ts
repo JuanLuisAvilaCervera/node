@@ -31,7 +31,7 @@ const app = express();
     
 // } 
 
-const corsOrigin : string = "http://localhost:5137";
+const corsOrigin : string = "http://localhost:5173";
 
 const corsOptions = {
     origin: corsOrigin,

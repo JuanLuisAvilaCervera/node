@@ -7,12 +7,12 @@ export const loginRouter = Router();
 
 const jsonParser = bodyParser.json();
 
-loginRouter.get('/', jsonParser, async(req : Request , res: Response)=> {
+loginRouter.post('/', jsonParser, async(req : Request , res: Response)=> {
     if(req.body.username !== null && req.body.username !== undefined && req.body.password !== null && req.body.password !== undefined){
         if(typeof req.body.username === "string" && typeof req.body.password === "string" ){
             if(req.body.username === "admin" && req.body.password === "admin"){
                 
-                return res.status(200).send(generateAccessToken(req.body.username));
+                return res.status(200).send({token : generateAccessToken(req.body.username)});
             }
         }
     }else{
