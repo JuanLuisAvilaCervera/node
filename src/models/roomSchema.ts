@@ -1,18 +1,10 @@
 import mongoose from "mongoose";
+import { RoomInterface } from "../interfaces/roomInterface";
 
-const RoomSchema = new mongoose.Schema({
-    room_id: Number,
-    room_type: String,
+const RoomSchema = new mongoose.Schema<RoomInterface>({
+    room_number: Number,
     description: String,
-    // photos: {
-    //     type: [String],
-    //     required: true,
-    // },
-    photos: [String],
-    offer: {
-        type: Boolean,
-        required: true,
-    },
+    offer: Boolean,
     price: Number,
     discount: Number,
     cancellation_policy : String,
@@ -20,3 +12,12 @@ const RoomSchema = new mongoose.Schema({
 });
 
 export const Room = mongoose.model("Room", RoomSchema)
+
+// photos: {
+    //     type: [String]
+    // },
+
+    // room_type: {
+    //     type: String,
+    //     enum: ['Single Bed' , 'Double Bed' , 'Double Superior' , 'Suite']
+    // },

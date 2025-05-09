@@ -1,48 +1,34 @@
 import { BookingInterface } from "../interfaces/bookingInterface";
-import { BookingValidator } from "../validators/bookingValidator";
-import Bookings from "../data/Bookings.json"
+import { Booking } from "../models/bookingSchema";
 
 export class BookingService{
 
-    private bookingList : BookingInterface[] = [];
-
-    constructor() {
-        this.bookingList = [...Bookings];
-    }
-
     async fetchAll(){
-        return this.bookingList;
+        return Booking.find().select('-_id -__v')
     }
 
     public async fetchById(id : number){
-        return this.bookingList.findIndex((booking) => booking.booking_id === id);
+        return Booking.findOne({booking_id : id})
     }
 
     async create(booking : BookingInterface){
-        this.bookingList.push(booking)
-        return booking;
+        return Booking.create(booking);
     }
 
-    async update(updatedBooking : BookingInterface){
-
-        const bookingId = await this.fetchById(updatedBooking.booking_id)
-        const oldBooking = this.bookingList[bookingId]
-        
-        oldBooking.client_id = updatedBooking.client_id;
-        oldBooking.room_id = updatedBooking.room_id;
-        oldBooking.order_date = updatedBooking.order_date;
-        oldBooking.check_in_date = updatedBooking.check_in_date;
-        oldBooking.check_out_date = updatedBooking.check_out_date;
-        oldBooking.status = updatedBooking.status;
-        oldBooking.special_request = updatedBooking.special_request;
-        return oldBooking;
-    }
+    // async update(updatedBooking : BookingInterface){
+    //     return Booking.updateOne({booking_id : updatedBooking.booking_id}, {
+    //         // client : updatedBooking.client,
+    //         // room : updatedBooking.room,
+    //         check_in_date : updatedBooking.check_in_date,
+    //         check_out_date : updatedBooking.check_out_date,
+    //         status : updatedBooking.status,
+    //         special_request : updatedBooking.special_request,
+    //     })
+    // }
     
 
     async deleteId(id : number){
-        const deletedBooking = this.bookingList.filter((booking) => booking.booking_id === id);
-        this.bookingList = this.bookingList.filter((booking) => booking.booking_id !== id )
-        return this.bookingList
+        return Booking.deleteOne({booking_id : id})
     }
 
 

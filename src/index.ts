@@ -6,6 +6,10 @@ import { bookingsRouter } from "./controllers/bookingController";
 import { authenticateToken } from "./middleware/auth";
 import mongoose from "mongoose";
 import serverless from "serverless-http";
+import { loginRouter } from "./controllers/loginController";
+import cors from "cors";
+
+
 
 declare module 'express' {
     export interface Request {
@@ -14,8 +18,6 @@ declare module 'express' {
 }
 
 const app = express();
-
-// app.use(authenticateToken as RequestHandler);
 
 // export const handler = () => {
 //     start().then( () => {
@@ -29,12 +31,20 @@ const app = express();
     
 // } 
 
+const corsOrigin : string = "http://localhost:5173";
+
+const corsOptions = {
+    origin: corsOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+
 app.use(json());
-// app.use("/login")
-app.use("/users", usersRouter);
-app.use("/contacts", contactsRouter)
-app.use("/rooms", roomsRouter)
-app.use("/bookings", bookingsRouter)
+app.use(cors(corsOptions));
+app.use("/login", loginRouter)
+app.use("/users", authenticateToken as RequestHandler,  usersRouter);
+app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
+app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
+app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
 
 
 const start = async () => {

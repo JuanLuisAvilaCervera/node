@@ -1,28 +1,18 @@
 import { UserInterface } from "../interfaces/userInterface";
-import { UserValidator } from "../validators/userValidator";
-import Users from "../data/Users.json"
 import { User } from "../models/userSchema";
 
 export class UserService{
 
-    private userList : UserInterface[] = [];
-
-    constructor() {
-        this.userList = [...Users];
-    }
 
     async fetchAll(){
-        console.log(User.find())
-        return User.find();
+        return User.find().select('-_id -__v' );
     }
 
     public async fetchOne(email : string){
         return User.findOne({email: email})
-
     }
 
     async create(user : UserInterface){
-        this.userList.push(user)
         return User.create(user);
     }
 
@@ -40,7 +30,7 @@ export class UserService{
     }
     
 
-    async deletOne(email : string){
+    async deleteOne(email : string){
         return User.deleteOne({email: email})
     }
     

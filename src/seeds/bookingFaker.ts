@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import express from "express";
 import { json } from "body-parser";
-import { createNewUser } from "./seed";
-import { UserInterface } from "../interfaces/userInterface";
-import { User } from "../models/userSchema";
+import { BookingInterface } from "../interfaces/bookingInterface";
+import { Booking } from "../models/bookingSchema";
+import { createNewBooking } from "./seed";
 
 
 declare module 'express' {
     export interface Request {
-        user: string;
+        booking: string;
     }
 }
 
@@ -29,17 +29,17 @@ const start = async () => {
 }
 start();
 
-const generateUsers = (num : number) => {
-    const fakedUsers = [];
+const generateBookings = (num : number) => {
+    const fakedBookings = [];
   
     for (let i = 0; i < num; i++) {
-      let fakeUser : UserInterface = createNewUser();
+      let fakeBooking : BookingInterface = createNewBooking();
   
-      fakedUsers.push(fakeUser);
+      fakedBookings.push(fakeBooking);
     }
   
-    return fakedUsers;
+    return fakedBookings;
 };
 
 
-User.insertMany(generateUsers(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
+Booking.insertMany(generateBookings(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));

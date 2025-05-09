@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import express from "express";
 import { json } from "body-parser";
-import { createNewUser } from "./seed";
-import { UserInterface } from "../interfaces/userInterface";
-import { User } from "../models/userSchema";
+import { createNewRoom, createNewUser } from "./seed";
+import { RoomInterface } from "../interfaces/roomInterface";
+import { Room } from "../models/roomSchema";
 
 
 declare module 'express' {
     export interface Request {
-        user: string;
+        room: string;
     }
 }
 
@@ -29,17 +29,16 @@ const start = async () => {
 }
 start();
 
-const generateUsers = (num : number) => {
-    const fakedUsers = [];
+const generateRooms = (num : number) => {
+    const fakedRooms = [];
   
     for (let i = 0; i < num; i++) {
-      let fakeUser : UserInterface = createNewUser();
+      let fakeRoom : RoomInterface = createNewRoom();
   
-      fakedUsers.push(fakeUser);
+      fakedRooms.push(fakeRoom);
     }
   
-    return fakedUsers;
+    return fakedRooms;
 };
 
-
-User.insertMany(generateUsers(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
+Room.insertMany(generateRooms(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
