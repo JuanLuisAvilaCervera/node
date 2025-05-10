@@ -19,17 +19,19 @@ declare module 'express' {
 
 const app = express();
 
-// export const handler = () => {
-//     start().then( () => {
-//         serverless(app)
-//         app.use(json());
-//         app.use("/users", usersRouter);
-//         app.use("/contacts", contactsRouter)
-//         app.use("/rooms", roomsRouter)
-//         app.use("/bookings", bookingsRouter)
-//     })
+export const handler = () => {
+    start().then( () => {
+        serverless(app)
+        app.use(json());
+        app.use(cors(corsOptions));
+        app.use("/login", loginRouter)
+        app.use("/users", authenticateToken as RequestHandler,  usersRouter);
+        app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
+        app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
+        app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
+    })
     
-// } 
+} 
 
 const corsOrigin : string = "http://localhost:5173";
 
@@ -50,7 +52,7 @@ app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
 const start = async () => {
     try{
         await mongoose.connect(
-            "mongodb+srv://juanluisavilacervera44:GV9nXFY1kI9mGi9R@mirandacluster.gsus0k2.mongodb.net/"
+            process.env.MONGO_URI as string
         )
     } catch (error){
 
@@ -60,3 +62,4 @@ const start = async () => {
 }
 start()
 app.listen(3000);
+// handler();

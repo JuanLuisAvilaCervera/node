@@ -28,10 +28,7 @@ export const  UserValidator = (req : Request, res: Response) => {
         return"Photo must be a string"
     }
 
-    // if( Object.prototype.toString.call(start_date) === '[object Date]'){
-    //     return  "Start date must be a Date"
-    // }
-    if( typeof start_date !== "string"){
+    if( Object.prototype.toString.call(start_date) !== '[object Date]'){
         return  "Start date must be a Date"
     }
 

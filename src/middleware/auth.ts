@@ -10,7 +10,6 @@ export function authenticateToken(req : Request, res : Response, next : () => vo
   if(authHeader !== undefined && Array.isArray(authHeader)){
     token =  authHeader[0]!.split(' ')[1]
   }else if(typeof authHeader === "string"){
-    console.log(authHeader)
     token =  authHeader.split(' ')[1]
   }else{
     token =  null;
@@ -21,7 +20,7 @@ export function authenticateToken(req : Request, res : Response, next : () => vo
 
   if(verifyPassword(req.user , "admin")){
     jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-      // console.log(err)
+      
 
       if (err) return res.sendStatus(403)
 

@@ -5,7 +5,6 @@ import { Client } from "../models/clientSchema";
 export class ClientService{
 
     async fetchAll(){
-        console.log(Client.find())
         return Client.find();
     }
 

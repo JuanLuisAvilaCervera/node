@@ -5,7 +5,7 @@ export class UserService{
 
 
     async fetchAll(){
-        return User.find().select('-_id -__v' );
+        return User.find().select('-__v' ).sort({start_date: 1});
     }
 
     public async fetchOne(email : string){

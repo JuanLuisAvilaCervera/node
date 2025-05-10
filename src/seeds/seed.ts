@@ -17,7 +17,7 @@ export const  createNewUser : () => UserInterface = () =>{
   const phone_number : string = faker.phone.number({style: "human"});
   const photo : string = faker.image.avatar();
   // const date = faker.date.past({years: 3})
-  const date : string= faker.string.numeric({length : 10})
+  const date : Date = faker.date.between({ from: '2000-01-01', to: Date.now() });;
 
   return {
     first_name : firstName,
