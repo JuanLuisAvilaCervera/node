@@ -12,9 +12,10 @@ const bookingService = new BookingService(); //mover dentro de cada
 
 const jsonParser = bodyParser.json();
 
-bookingsRouter.get('/', async(req : Request , res: Response)=> {
+bookingsRouter.get('/', async(req : Request , res: Response) : Promise=> {
     const bookingList = await bookingService.fetchAll();
-    return res.status(200).json(bookingList)
+    res.status(200).json(bookingList)
+    return;
 })
 
 bookingsRouter.get('/:id', async(req : Request , res: Response)=> {
@@ -22,8 +23,6 @@ bookingsRouter.get('/:id', async(req : Request , res: Response)=> {
     if(IdValidator(req.params.id)){
         const booking = await bookingService.fetchById(parseInt(req.params.id));
         return res.status(200).json(booking)
-    }else{
-        
     }
     
 })

@@ -14,7 +14,7 @@ const jsonParser = bodyParser.json();
 
 usersRouter.get('/', async(req : Request , res: Response)=> {
     const userList = await userService.fetchAll();
-    return res.status(200).json(userList)
+    res.status(200).json(userList)
 })
 
 usersRouter.get('/:email', async(req : Request , res: Response)=> {

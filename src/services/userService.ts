@@ -1,11 +1,41 @@
 import { UserInterface } from "../interfaces/userInterface";
 import { User } from "../models/userSchema";
 
+
+// Get the client
+import mysql from 'mysql2/promise';
+
+// Create the connection to database
+
+
+
+
+
 export class UserService{
 
 
     async fetchAll(){
-        return User.find().select('-__v' ).sort({start_date: 1});
+
+
+        const connection = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            database: 'trial',
+            password: 'admin'
+        });
+
+
+        try {
+            const [results, fields] = await connection.query(
+                'SELECT * FROM `user` ;'
+            );
+
+            console.log(results); // results contains rows returned by server
+            console.log(fields); // fields contains extra meta data about results, if available
+            return results;
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     public async fetchOne(email : string){
