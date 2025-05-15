@@ -20,19 +20,19 @@ declare module 'express' {
 
 const app = express();
 
-export const handler = () => {
-    start().then( () => {
-        serverless(app)
-        app.use(json());
-        app.use(cors(corsOptions));
-        app.use("/login", loginRouter)
-        app.use("/users", authenticateToken as RequestHandler,  usersRouter);
-        app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
-        app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
-        app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
-    })
+// export const handler = () => {
+//     start().then( () => {
+//         serverless(app)
+//         app.use(json());
+//         app.use(cors(corsOptions));
+//         app.use("/login", loginRouter)
+//         app.use("/users", authenticateToken as RequestHandler,  usersRouter);
+//         app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
+//         app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
+//         app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
+//     })
     
-} 
+// } 
 
 const corsOrigin : string = "http://localhost:5173";
 
@@ -49,20 +49,5 @@ app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
 app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
 app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
 
-
-// const start = async () => {
-//     try{
-//         const sequelize = new Sequelize('miranda-database', 'root', process.env.SQL_PASSWORD, {
-//           host: 'localhost',
-//           dialect: 'mysql',
-//         });
-        
-//     } catch (error){
-
-//         console.error("s mongo: " , error);
-//         process.exit(1);
-//     }
-// }
-// start()
 app.listen(3000);
 // handler();
