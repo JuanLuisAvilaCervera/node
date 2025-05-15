@@ -14,7 +14,7 @@ const jsonParser = bodyParser.json();
 
 usersRouter.get('/', async(req : Request , res: Response)=> {
     const userList = await userService.fetchAll();
-    return res.status(200).json(userList)
+    res.status(200).json(userList)
 })
 
 usersRouter.get('/:email', async(req : Request , res: Response)=> {
@@ -40,17 +40,24 @@ usersRouter.post('/', jsonParser , async(req : Request , res: Response) => {
 
 })
 
-usersRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
+usersRouter.put('/:email', jsonParser , async(req :Request , res : Response)=> {
 
-        const updatedUser = await userService.update(req.body);
+    console.log(UserExists(req.params.email) !== null)
+    if(UserExists(req.params.email) !== null){
+
+        const updatedUser =  await userService.update(req.params.email, req.body);
+    
         return res.status(202).json(updatedUser);
+    }else{
+        return  res.status(400).json({message: "User does not exist"})
+    }
 })
 
 usersRouter.delete('/:email', jsonParser , async(req : Request , res : Response) => {
 
-    if(await UserExists(req.params.email) !== null){
+    if(UserExists(req.params.email) !== null){
 
-        const remainingList =  await userService.deleteOne(req.params.email);
+        const remainingList =  await userService.deleteOne(req.params.email , );
         
         return res.status(202).json(remainingList);
     }else{

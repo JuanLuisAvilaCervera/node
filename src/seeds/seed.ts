@@ -8,6 +8,7 @@ import { RoomInterface } from '../interfaces/roomInterface';
 import { Room } from '../models/roomSchema';
 
 
+
 export const  createNewUser : () => UserInterface = () =>{
   const sex = faker.person.sexType();
   const firstName : string = faker.person.firstName(sex);

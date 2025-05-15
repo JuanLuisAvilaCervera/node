@@ -1,9 +1,16 @@
-import mongoose from "mongoose";
+
 import express from "express";
 import { json } from "body-parser";
 import { createNewUser } from "./seed";
 import { UserInterface } from "../interfaces/userInterface";
-import { User } from "../models/userSchema";
+
+import { Sequelize } from "sequelize";
+
+const sequelize = new Sequelize('miranda-database', 'root', process.env.SQL_PASSWORD, {
+  host: 'localhost',
+  dialect: 'mysql',
+});
+
 
 
 declare module 'express' {
@@ -16,30 +23,19 @@ const app = express();
 
 app.use(json());
 
-const start = async () => {
-    try{
-        await mongoose.connect(
-            "mongodb+srv://juanluisavilacervera44:GV9nXFY1kI9mGi9R@mirandacluster.gsus0k2.mongodb.net/"
-        )
-    } catch (error){
-
-        console.error("error mongo: " , error);
-        process.exit(1);
-    }
-}
-start();
-
 const generateUsers = (num : number) => {
-    const fakedUsers = [];
+    const fakedUsers : UserInterface[] = [];
   
     for (let i = 0; i < num; i++) {
       let fakeUser : UserInterface = createNewUser();
   
-      fakedUsers.push(fakeUser);
+      sequelize.query(`INSERT INTO user (first_name , last_name , email , photo , start_date , job_description , active , contact) VALUES ('${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.email}','${fakeUser.photo}','${fakeUser.start_date.getFullYear()}/${fakeUser.start_date.getMonth() + 1}/${fakeUser.start_date.getDate()}','${fakeUser.job_description}',${fakeUser.active},'${fakeUser.contact}' )`)
+    
+
     }
-  
+  sequelize.query('SELECT * FROM user')
+            .then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
     return fakedUsers;
 };
+console.log(generateUsers(30))
 
-
-User.insertMany(generateUsers(30)).then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));

@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import serverless from "serverless-http";
 import { loginRouter } from "./controllers/loginController";
 import cors from "cors";
+import { Sequelize } from "sequelize";
 
 
 
@@ -49,17 +50,19 @@ app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
 app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
 
 
-const start = async () => {
-    try{
-        await mongoose.connect(
-            process.env.MONGO_URI as string
-        )
-    } catch (error){
+// const start = async () => {
+//     try{
+//         const sequelize = new Sequelize('miranda-database', 'root', process.env.SQL_PASSWORD, {
+//           host: 'localhost',
+//           dialect: 'mysql',
+//         });
+        
+//     } catch (error){
 
-        console.error("error mongo: " , error);
-        process.exit(1);
-    }
-}
-start()
+//         console.error("s mongo: " , error);
+//         process.exit(1);
+//     }
+// }
+// start()
 app.listen(3000);
 // handler();
