@@ -4,39 +4,35 @@ import { json } from "body-parser";
 import { createNewRoom, createNewUser } from "./seed";
 import { RoomInterface } from "../interfaces/roomInterface";
 import { Room } from "../models/roomSchema";
+import { SequelizeMethod } from "sequelize/lib/utils";
+import { Sequelize } from "sequelize";
+
+const sequelize = new Sequelize('miranda-database', 'root', process.env.SQL_PASSWORD, {
+  host: 'localhost',
+  dialect: 'mysql',
+});
+
 
 
 declare module 'express' {
     export interface Request {
-        room: string;
+        user: string;
     }
 }
-
 const app = express();
 
 app.use(json());
 
-const start = async () => {
-    try{
-        await mongoose.connect(
-            "mongodb+srv://juanluisavilacervera44:GV9nXFY1kI9mGi9R@mirandacluster.gsus0k2.mongodb.net/"
-        )
-    } catch (error){
-
-        console.error("error mongo: " , error);
-        process.exit(1);
-    }
-}
-start();
 
 const generateRooms = (num : number) => {
-    const fakedRooms = [];
+    const fakedRooms : RoomInterface[] = [];
   
     for (let i = 0; i < num; i++) {
       let fakeRoom : RoomInterface = createNewRoom();
-  
-      fakedRooms.push(fakeRoom);
+      sequelize.query(`INSERT INTO room (room_number , description , offer , price , discount , cancellation_policy , photos , room_type) VALUES (${fakeRoom.room_number} , '${fakeRoom.description}', ${fakeRoom.offer}, ${fakeRoom.price}, ${fakeRoom.discount}, '${fakeRoom.cancellation_policy}', '${JSON.stringify(fakeRoom.photos)}', '${fakeRoom.room_type}')`)
     }
+    sequelize.query('SELECT * FROM room')
+        .then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
   
     return fakedRooms;
 };

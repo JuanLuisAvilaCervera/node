@@ -14,9 +14,6 @@ const checkDate = ( date : string | Date) =>{
 
 
 export class UserService{
-
-    
-
     async fetchAll(){
         return sequelize.query('SELECT * FROM user');
     }
@@ -32,14 +29,12 @@ export class UserService{
     }
 
     async update(email : string , updated : UserInterface){
-
-        return sequelize.query(`UPDATE user SET first_name=${updated.first_name} , last_name=${updated.last_name} , photo = ${updated.photo} , job_description = ${updated.job_description} , active = ${updated.active} , contact = ${updated.contact} WHERE email = ${email}`)
-
+        return sequelize.query(`UPDATE user SET first_name='${updated.first_name}' , last_name='${updated.last_name}' , photo = '${updated.photo}' , job_description = '${updated.job_description}' , active = ${updated.active} , contact = '${updated.contact}' WHERE email = '${email}'`)
     }
     
 
     async deleteOne(email : string){
-        return sequelize.query(`DELETE FROM user WHERE email = ${email}`)
+        return sequelize.query(`DELETE FROM user WHERE email='${email}'`)
     }
     
 

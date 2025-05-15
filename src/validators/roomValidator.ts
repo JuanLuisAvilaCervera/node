@@ -7,9 +7,9 @@ import { RoomInterface } from "../interfaces/roomInterface";
 export const  RoomValidator = (req : Request, res: Response) => {
     const {
         room_number,
-        // room_type, 
+        room_type, 
         description, 
-        // photos, 
+        photos, 
         offer, 
         price, 
         discount, 
@@ -17,17 +17,11 @@ export const  RoomValidator = (req : Request, res: Response) => {
         amenities
     } = req.body as RoomInterface;
 
-    // if(typeof room_type !== "string"){
-    //     return "Room type must be a string"
-    // }
 
     if(typeof description !== "string"){
         return "Description must be a string"
     }
 
-    // if(photos != null){
-    //     return"Photos must be null"
-    // }
 
     if( typeof offer !== "boolean"){
         return  "Offer must be a boolean"

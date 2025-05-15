@@ -6,7 +6,8 @@ interface RoomInterface {
     price: number,
     discount: number,
     cancellation_policy: string,
-    amenities: string
+    photos : string[],
+    room_type: "Single Bed" | "Double Bed" | "Double Superior" | "Suite", 
 }
 
 export {RoomInterface}

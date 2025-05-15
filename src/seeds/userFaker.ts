@@ -28,13 +28,10 @@ const generateUsers = (num : number) => {
   
     for (let i = 0; i < num; i++) {
       let fakeUser : UserInterface = createNewUser();
-  
       sequelize.query(`INSERT INTO user (first_name , last_name , email , photo , start_date , job_description , active , contact) VALUES ('${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.email}','${fakeUser.photo}','${fakeUser.start_date.getFullYear()}/${fakeUser.start_date.getMonth() + 1}/${fakeUser.start_date.getDate()}','${fakeUser.job_description}',${fakeUser.active},'${fakeUser.contact}' )`)
-    
-
     }
-  sequelize.query('SELECT * FROM user')
-            .then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
+    sequelize.query('SELECT * FROM user')
+      .then( () => console.log("Data inserted")).catch( (error) => console.log("Error: "+ error));
     return fakedUsers;
 };
 console.log(generateUsers(30))

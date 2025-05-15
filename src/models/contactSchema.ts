@@ -7,12 +7,7 @@ const ContactSchema = new mongoose.Schema<ContactInterface>({
     subject: String,
     comment: String,
     archived: Boolean,
-    client : {
-        first_name : String,
-        last_name : String,
-        phone : String,
-        email : String,
-    }
+    idclient: Number,
 });
 
 export const Contact = mongoose.model("Contact", ContactSchema)

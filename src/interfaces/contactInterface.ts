@@ -1,8 +1,8 @@
 import { ClientInterface } from "./clientInterface";
 
 interface ContactInterface {
-    client : ClientInterface,
-    comment_date: string;
+    idclient : number;
+    comment_date: Date;
     subject: string;
     comment: string;
     archived: boolean;

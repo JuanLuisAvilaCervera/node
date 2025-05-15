@@ -57,7 +57,7 @@ usersRouter.delete('/:email', jsonParser , async(req : Request , res : Response)
 
     if(UserExists(req.params.email) !== null){
 
-        const remainingList =  await userService.deleteOne(req.params.email , );
+        const remainingList =  await userService.deleteOne(req.params.email);
         
         return res.status(202).json(remainingList);
     }else{

@@ -1,11 +1,18 @@
+import { Sequelize } from "sequelize";
 import { RoomInterface } from "../interfaces/roomInterface";
 import { Room } from "../models/roomSchema";
 import { IdValidator } from "../validators/idValidator";
 
+const sequelize = new Sequelize('miranda-database', 'root', process.env.SQL_PASSWORD, {
+    host: 'localhost',
+    dialect: 'mysql',
+});
+
+
 export class RoomService{
 
     async fetchAll(){
-        return Room.find().select('-_id -__v');
+        return sequelize.query(`SELECT * FROM room`);
     }
 
     public async fetchById(room_number: number){

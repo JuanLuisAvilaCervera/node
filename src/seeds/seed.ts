@@ -6,6 +6,7 @@ import { ClientInterface } from '../interfaces/clientInterface';
 import { ContactInterface } from '../interfaces/contactInterface';
 import { RoomInterface } from '../interfaces/roomInterface';
 import { Room } from '../models/roomSchema';
+import { Sequelize } from 'sequelize';
 
 
 
@@ -32,7 +33,7 @@ export const  createNewUser : () => UserInterface = () =>{
   } as UserInterface;
 }
 
-const createNewClient : () => ClientInterface = () => {
+export const createNewClient : () => ClientInterface = () => {
 
   const sex = faker.person.sexType();
   const firstName : string = faker.person.firstName(sex);
@@ -51,14 +52,12 @@ const createNewClient : () => ClientInterface = () => {
 
 export const createNewContact : () => ContactInterface = () => {
 
-  const client : ClientInterface = createNewClient();
-  const comment_date : string = faker.string.numeric({length : 10})
+  const comment_date : Date = faker.date.past()
   const subject : string = faker.commerce.productName()
   const comment: string = faker.lorem.sentence({min: 50 , max : 150})
   const archived : boolean = faker.datatype.boolean({probability : 0.5})
 
   return {
-    client : client,
     comment_date: comment_date,
     subject: subject,
     comment: comment,
@@ -66,38 +65,38 @@ export const createNewContact : () => ContactInterface = () => {
   }as ContactInterface
 }
 
-// enum RoomTypes {
-//   SBed = 'Single Bed',
-//   DBed = 'Double Bed',
-//   DSuperior = 'Double Superior',
-//   Suite = 'Suite'
-// }
+enum RoomTypes{
+  Single = 'Single Bed',
+  Double = 'Double Bed',
+  DoubleSuperior = 'Double Superior',
+  Suite = 'Suite'
+}
 
 export const createNewRoom : () => RoomInterface = () => {
 
   const room_number: number = faker.number.int({min : 1 , max: 999}); 
-  // const room_type: string = faker.helpers.enumValue(RoomTypes)
-  const description : string = faker.lorem.sentence({min : 50 , max : 150})
+  const room_type: "Single Bed" | "Double Bed" | "Double Superior" | "Suite"= faker.helpers.enumValue(RoomTypes)
+  const description : string = faker.lorem.sentence(30)
 
-  // const nPhotos : number = faker.number.int({min : 3 , max: 5})
+  const nPhotos : number = faker.number.int({min : 3 , max: 5})
 
-  // const photos: string[] = []
+  const photos: string[] = []
 
-  // for(let i = 0 ; i <= nPhotos ; i++){
-  //   photos.push(faker.image.urlPicsumPhotos())
-  // }
+  for(let i = 0 ; i <= nPhotos ; i++){
+    photos.push(faker.image.urlPicsumPhotos())
+  }
 
   const offer: boolean = faker.datatype.boolean({probability : 0.5})
   const price: number = faker.number.float({min: 50 , max: 300})
   const discount: number = faker.number.float({min: 0 , max: 100})
-  const cancellation_policy: string = faker.lorem.sentence({min : 50 , max: 150})
+  const cancellation_policy: string = faker.lorem.sentence(20)
   const amenities: string = faker.commerce.department();
 
   return {
     room_number: room_number,
-    // room_type: room_type,
+    room_type: room_type,
     description : description,
-    // photos: photos,
+    photos: photos,
     offer: offer,
     price: price,
     discount: discount,
