@@ -6,18 +6,17 @@ import { IdValidator } from '../validators/idValidator';
 
 import bodyParser from 'body-parser';
 
-
 export const usersRouter = Router();
 const userService = new UserService();
 
 const jsonParser = bodyParser.json();
 
-usersRouter.get('/', async(req : Request , res: Response) : Promise<any>=> {
+usersRouter.get('/', async(req : Request , res: Response)=> {
     const userList = await userService.fetchAll();
     return res.status(200).json(userList)
 })
 
-usersRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=> {
+usersRouter.get('/:id', async(req : Request , res: Response)=> {
 
     if(IdValidator(req.params.id)){
         const user = await userService.fetchById(parseInt(req.params.id));
@@ -28,7 +27,7 @@ usersRouter.get('/:id', async(req : Request , res: Response) : Promise<any>=> {
     
 })
 
-usersRouter.post('/create', jsonParser , async(req : Request , res: Response) : Promise<any> => {
+usersRouter.post('/create', jsonParser , async(req : Request , res: Response) => {
 
     if(UserValidator(req, res) && await UserExists(req.body.user_id)){
         await userService.create(req.body);
@@ -40,7 +39,7 @@ usersRouter.post('/create', jsonParser , async(req : Request , res: Response) : 
 
 })
 
-usersRouter.put('/update', jsonParser , async(req :Request , res : Response) : Promise<any> => {
+usersRouter.put('/update', jsonParser , async(req :Request , res : Response) => {
 
     if(await UpdateUserValidator(req, res)){
         const updatedUser = await userService.update(req.body);
@@ -50,7 +49,7 @@ usersRouter.put('/update', jsonParser , async(req :Request , res : Response) : P
     }
 })
 
-usersRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response) : Promise<any> => {
+usersRouter.delete('/delete/:id', jsonParser , async(req : Request , res : Response)  => {
 
     if(await UserExists(req.params.id)){
 
