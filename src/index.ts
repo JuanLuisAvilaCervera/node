@@ -10,13 +10,6 @@ import { loginRouter } from "./controllers/loginController";
 import cors from "cors";
 
 
-
-declare module 'express' {
-    export interface Request {
-        user: string;
-    }
-}
-
 const app = express();
 
 
@@ -50,5 +43,5 @@ const start = async () => {
 }
 start()
 
-export const handler = serverless(app)
+// export const handler = serverless(app)
 
