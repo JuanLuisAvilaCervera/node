@@ -43,5 +43,9 @@ const start = async () => {
 }
 start()
 
+app.listen(3000 , () => {
+    console.log("Server is running")
+})
+
 // export const handler = serverless(app)
 
