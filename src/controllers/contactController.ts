@@ -6,14 +6,13 @@ import bodyParser from 'body-parser';
 export const contactsRouter = Router();
 const contactService = new ContactService();
 
-const jsonParser = bodyParser.json();
 
 contactsRouter.get('/', async(req : Request , res: Response) => {
     const contactList = await contactService.fetchAll();
     return res.status(200).json(contactList)
 })
 
-contactsRouter.put('/', jsonParser , async(req :Request , res : Response) => {
+contactsRouter.put('/', async(req :Request , res : Response) => {
 
         const updatedcontact = await contactService.update(req.body);
         if(updatedcontact !== null){

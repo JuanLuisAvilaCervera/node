@@ -10,9 +10,8 @@ import bodyParser from 'body-parser';
 export const usersRouter = Router();
 const userService = new UserService();
 
-const jsonParser = bodyParser.json();
 
-usersRouter.get('/', async(req : Request , res: Response)=> {
+usersRouter.get('/', async( res: Response)=> {
     const userList = await userService.fetchAll();
     res.status(200).json(userList)
 })
@@ -29,7 +28,7 @@ usersRouter.get('/:email', async(req : Request , res: Response)=> {
     
 })
 
-usersRouter.post('/', jsonParser , async(req : Request , res: Response) => {
+usersRouter.post('/', async(req : Request , res: Response) => {
 
     if(UserValidator(req, res)){
         const created = await userService.create(req.body);
@@ -40,20 +39,20 @@ usersRouter.post('/', jsonParser , async(req : Request , res: Response) => {
 
 })
 
-usersRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
+usersRouter.put('/' , async(req :Request , res : Response)=> {
 
         const updatedUser = await userService.update(req.body);
         return res.status(202).json(updatedUser);
 })
 
-usersRouter.delete('/:email', jsonParser , async(req : Request , res : Response) => {
+usersRouter.delete('/:email' , async(req : Request , res : Response) : Promise<any>=> {
 
     if(await UserExists(req.params.email) !== null){
 
         const remainingList =  await userService.deleteOne(req.params.email);
         
         return res.status(202).json(remainingList);
-    }else{
-        return  res.status(400).json({message: "User does not exist"})
     }
+        return  res.status(400).json({message: "User does not exist"})
+    
 })

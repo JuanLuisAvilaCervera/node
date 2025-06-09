@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import serverless from "serverless-http";
 import { loginRouter } from "./controllers/loginController";
 import cors from "cors";
+import 'dotenv/config';
 
 
 const app = express();
@@ -24,10 +25,10 @@ const corsOptions = {
 app.use(json());
 app.use(cors(corsOptions));
 app.use("/login", loginRouter)
-app.use("/users", authenticateToken as RequestHandler,  usersRouter);
-app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
-app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
-app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
+// app.use("/users", authenticateToken as RequestHandler,  usersRouter);
+// app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
+// app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
+// app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
 
 
 const start = async () => {
@@ -47,5 +48,5 @@ app.listen(3000 , () => {
     console.log("Server is running")
 })
 
-// export const handler = serverless(app)
+export const handler = serverless(app)
 

@@ -10,7 +10,6 @@ import { Room } from '../models/roomSchema';
 
 export const roomsRouter = Router();
 
-const jsonParser = bodyParser.json();
 
 
 roomsRouter.get('/', async(req: Request, res : Response) => {
@@ -32,7 +31,7 @@ roomsRouter.get('/:id', async(req : Request , res: Response)=> {
     
 })
 
-roomsRouter.post('/', jsonParser , async(req : Request , res: Response) => {
+roomsRouter.post('/' , async(req : Request , res: Response) => {
     const roomService = new RoomService();
 
     if(RoomValidator(req, res) && roomService.RoomExists(req.body.room_id) === "Id incorrecto"){
@@ -45,7 +44,7 @@ roomsRouter.post('/', jsonParser , async(req : Request , res: Response) => {
 
 })
 
-roomsRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
+roomsRouter.put('/' , async(req :Request , res : Response)=> {
     const roomService = new RoomService();
         const updatedRoom = await roomService.update(req.body);
         if(updatedRoom !== null){
@@ -55,7 +54,7 @@ roomsRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
         }
 })
 
-roomsRouter.delete('/:number', jsonParser , async(req : Request , res : Response)  => {
+roomsRouter.delete('/:number' , async(req : Request , res : Response)  => {
     const roomService = new RoomService();
     if(roomService.RoomExists(req.params.number) !== "Id incorrecto"){
 

@@ -1,7 +1,7 @@
 import {Request , Response, Router} from 'express';
 import Bookings from '../data/Bookings.json'
 import { BookingService } from '../services/bookingService';
-import { BookingExists, BookingValidator } from '../validators/bookingValidator';
+import {  BookingValidator } from '../validators/bookingValidator';
 import { IdValidator } from '../validators/idValidator';
 
 import bodyParser from 'body-parser';
@@ -10,7 +10,6 @@ import bodyParser from 'body-parser';
 export const bookingsRouter = Router();
 const bookingService = new BookingService(); //mover dentro de cada
 
-const jsonParser = bodyParser.json();
 
 bookingsRouter.get('/', async(req : Request , res: Response) : Promise=> {
     const bookingList = await bookingService.fetchAll();
@@ -27,7 +26,7 @@ bookingsRouter.get('/:id', async(req : Request , res: Response)=> {
     
 })
 
-bookingsRouter.post('/', jsonParser , async(req : Request , res: Response)=> {
+bookingsRouter.post('/' , async(req : Request , res: Response)=> {
 
     
     if(BookingValidator(req, res) && await BookingExists(req.body.booking_id)){
@@ -40,13 +39,13 @@ bookingsRouter.post('/', jsonParser , async(req : Request , res: Response)=> {
 
 })
 
-bookingsRouter.put('/', jsonParser , async(req :Request , res : Response) => {
+bookingsRouter.put('/' , async(req :Request , res : Response) => {
 
         const updatedBooking = await bookingService.update(req.body);
         return res.status(202).json(updatedBooking);
 })
 
-bookingsRouter.delete('/:id', jsonParser , async(req : Request , res : Response) => {
+bookingsRouter.delete('/:id', async(req : Request , res : Response) => {
 
     if(await BookingExists(req.params.id)){
 

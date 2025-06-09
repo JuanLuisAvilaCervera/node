@@ -1,32 +1,30 @@
 {
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^3.0.2",
-    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.14.0",
+    "mongoose": "^8.15.1",
     "mysql2": "^3.14.1",
-    "nodemon": "^3.1.10",
-    "serverless": "^4.14.1",
-    "serverless-http": "^3.2.0"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^9.7.0",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
-    "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^22.15.17",
-    "tsx": "^4.19.4",
+    "serverless": "^4.17.0",
+    "serverless-http": "^3.2.0",
     "typescript": "^5.8.3"
   },
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsx watch --env-file=.env src/index.ts",
-    "insert": "tsx watch --env-file=.env",
-    "typecheck": "tsc --noEmit"
-  }
+  "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9"
+  },
+  "name": "node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {    
+    "start": "node dist/index.ts",    
+    "build": "tsc",    
+    "dev": "nodemon --watch src --ext ts --exec ts-node ./src/index.ts",    
+    "seed": "ts-node src/config/seed.ts"  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

@@ -8,7 +8,6 @@ import { ClientExists, ClientValidator, UpdateClientValidator } from '../validat
 export const clientsRouter = Router();
 const clientService = new ClientService();
 
-const jsonParser = bodyParser.json();
 
 clientsRouter.get('/', async(req : Request , res: Response)=> {
     const clientList = await clientService.fetchAll();
@@ -27,7 +26,7 @@ clientsRouter.get('/:email', async(req : Request , res: Response)=> {
     
 })
 
-clientsRouter.post('/', jsonParser , async(req : Request , res: Response) => {
+clientsRouter.post('/', async(req : Request , res: Response) => {
 
     if(ClientValidator(req, res)){
         const created = await clientService.create(req.body);
@@ -38,7 +37,7 @@ clientsRouter.post('/', jsonParser , async(req : Request , res: Response) => {
 
 })
 
-clientsRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
+clientsRouter.put('/' , async(req :Request , res : Response)=> {
 
     if(await UpdateClientValidator(req, res)){
         const updatedUser = await clientService.update(req.body);
@@ -48,7 +47,7 @@ clientsRouter.put('/', jsonParser , async(req :Request , res : Response)=> {
     }
 })
 
-clientsRouter.delete('/:email', jsonParser , async(req : Request , res : Response) => {
+clientsRouter.delete('/:email', async(req : Request , res : Response) => {
 
     if(await ClientExists(req.params.email) !== null){
 
