@@ -1,54 +1,50 @@
 
-import Contacts from "../data/Contacts.json"
+import { ClientInterface } from "../interfaces/clientInterface";
 import { ContactInterface } from "../interfaces/contactInterface";
+import { Contact } from "../models/contactSchema";
+import { ClientService } from "./clientService";
 
 export class ContactService{
 
-    private contactList : ContactInterface[] = [];
-
-    constructor() {
-        this.contactList = [...Contacts];
-    }
-
     async fetchAll(){
-        return this.contactList;
+        return Contact.find();
     }
 
-    public async fetchById(id : number){
-        const contactFetchedArray = this.contactList.filter((contact) => contact.contact_id === id)
-        return contactFetchedArray.length > 0 ? this.contactList.filter((contact) => contact.contact_id === id)[0] : "Contacto no existente";
+    public async fetchOne(comment_date : string , email : string){
 
-    }
+        const clientService = new ClientService();
+        const client : ClientInterface | null = await clientService.fetchOne(email);
 
-    async create(contact : ContactInterface){
-        this.contactList.push(contact)
-        return contact;
-    }
-
-    async update(updatedcontact : ContactInterface){
-
-        const oldcontact = await this.fetchById(updatedcontact.contact_id);
-
-        if( oldcontact !== "Contacto no existente"){
-            
-            oldcontact.client_id = updatedcontact.client_id;
-            oldcontact.comment_date = updatedcontact.comment_date;
-            oldcontact.subject = updatedcontact.subject;
-            oldcontact.comment = updatedcontact.comment;
-            oldcontact.archived = updatedcontact.archived;
-            return oldcontact;
+        if(client !== null){
+            return Contact.findOne({comment_date : comment_date , client : client})
         }else{
-            return "Contacto no existente"
+            return null;
         }
     }
+
+    // async create(contact : ContactInterface){
+    //     return Contact.create(contact);
+    // }
+
+    async update(updatedContact : ContactInterface){
+
+        const clientService = new ClientService();
+        const client : ClientInterface | null = await clientService.fetchOne(updatedContact.client.email as string);
+
+        if(client !== null){
+            return Contact.updateOne({comment_date : updatedContact.comment_date , client : client}, 
+                {
+                    archived: updatedContact.archived
+                })
+        }else{
+            return null;
+        }
+
+        
+    }
+    
     
 
-    async deleteId(id : number){
-        const deletedcontact = this.contactList.filter((contact) => contact.contact_id === id);
-        console.log(deletedcontact[0])
-        this.contactList = this.contactList.filter((contact) => contact.contact_id !== id )
-        return this.contactList
-    }
 
 
 }

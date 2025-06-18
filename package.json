@@ -3,22 +3,28 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.0",
+    "nodemon": "^3.1.10",
     "serverless": "^4.14.1",
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
-    "tsx": "^4.19.3",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "node --watch --env-file=.env dist/index.js",
     "build": "tsc",
     "dev": "tsx watch --env-file=.env src/index.ts",
+    "insert": "tsx watch --env-file=.env",
     "typecheck": "tsc --noEmit"
   }
 }

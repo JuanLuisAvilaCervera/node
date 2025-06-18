@@ -6,10 +6,10 @@ import { RoomInterface } from "../interfaces/roomInterface";
 
 export const  RoomValidator = (req : Request, res: Response) => {
     const {
-        room_id , 
-        room_type, 
+        room_number,
+        // room_type, 
         description, 
-        photos, 
+        // photos, 
         offer, 
         price, 
         discount, 
@@ -17,22 +17,17 @@ export const  RoomValidator = (req : Request, res: Response) => {
         amenities
     } = req.body as RoomInterface;
 
-    
-    if(typeof room_id !== "number"){
-        return "Room Id must be a number"
-    }
-
-    if(typeof room_type !== "string"){
-        return "Room type must be a string"
-    }
+    // if(typeof room_type !== "string"){
+    //     return "Room type must be a string"
+    // }
 
     if(typeof description !== "string"){
         return "Description must be a string"
     }
 
-    if(photos != null){
-        return"Photos must be null"
-    }
+    // if(photos != null){
+    //     return"Photos must be null"
+    // }
 
     if( typeof offer !== "boolean"){
         return  "Offer must be a boolean"
@@ -54,25 +49,10 @@ export const  RoomValidator = (req : Request, res: Response) => {
         return  "Amenities must be a string"
     }
 
+    //PHOTOS
+
     return "Correct";
 
     
 }
 
-export const RoomExists = (id : string | number) =>{ // devolver booleano, cambiar a service
-    if(IdValidator(id)){
-        const userService = new RoomService();
-        if(typeof id !== "number"){
-            return userService.fetchById(parseInt(id)) 
-        }else{
-            return userService.fetchById(id)
-        }
-        
-    }else{
-        return "Id incorrecto"
-    }
-}
-
-export const UpdateRoomValidator = (req : Request, res : Response) => {
-    return(RoomValidator(req , res) === "Correct" && RoomExists(req.body.user_id) !== "Id incorrecto")
-}

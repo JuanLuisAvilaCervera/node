@@ -1,52 +1,37 @@
 import { UserInterface } from "../interfaces/userInterface";
-import { UserValidator } from "../validators/userValidator";
-import Users from "../data/Users.json"
+import { User } from "../models/userSchema";
 
 export class UserService{
 
-    private userList : UserInterface[] = [];
-
-    constructor() {
-        this.userList = [...Users];
-    }
 
     async fetchAll(){
-        return this.userList;
+        return User.find().select('-_id -__v' );
     }
 
-    public async fetchById(id : number){
-        return this.userList.findIndex((user) => user.user_id === id);
-
+    public async fetchOne(email : string){
+        return User.findOne({email: email})
     }
 
     async create(user : UserInterface){
-        this.userList.push(user)
-        return user;
+        return User.create(user);
     }
 
     async update(updatedUser : UserInterface){
-
-        const fetchedId = await this.fetchById(updatedUser.user_id);
-        const oldUser = this.userList[fetchedId]
-        
-        oldUser.first_name = updatedUser.first_name;
-        oldUser.last_name = updatedUser.last_name;
-        oldUser.start_date = updatedUser.start_date;
-        oldUser.email = updatedUser.email;
-        oldUser.contact = updatedUser.contact;
-        oldUser.job_description = updatedUser.job_description;
-        oldUser.photo = updatedUser.photo;
-        oldUser.active = updatedUser.active;
-        return oldUser;
+        return User.updateOne({email: updatedUser.email}, 
+        {
+            first_name: updatedUser.first_name ,
+            last_name : updatedUser.last_name ,
+            photo : updatedUser.photo,
+            active: updatedUser.active ,
+            job_description : updatedUser.job_description ,
+            contact : updatedUser.contact ,
+            start_date : updatedUser.start_date
+        })
     }
     
 
-    async deleteId(id : number){
-        console.log(id)
-        const deletedUser = this.userList.filter((user) => user.user_id === id);
-        console.log(deletedUser[0])
-        this.userList = this.userList.filter((user) => user.user_id !== id )
-        return this.userList
+    async deleteOne(email : string){
+        return User.deleteOne({email: email})
     }
     
 

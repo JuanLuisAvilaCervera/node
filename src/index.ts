@@ -1,9 +1,18 @@
-import express , { RequestHandler} from "express";
+import express , { json, Request, RequestHandler} from "express";
 import { usersRouter } from "./controllers/userController";
 import { contactsRouter } from "./controllers/contactController";
 import { roomsRouter } from "./controllers/roomController";
 import { bookingsRouter } from "./controllers/bookingController";
 import { authenticateToken } from "./middleware/auth";
+<<<<<<< HEAD
+=======
+import mongoose from "mongoose";
+import serverless from "serverless-http";
+import { loginRouter } from "./controllers/loginController";
+import cors from "cors";
+
+
+>>>>>>> bccfcd03589a91f78c3dd60e4257b14322bd346d
 
 declare module 'express' {
     export interface Request {
@@ -13,14 +22,49 @@ declare module 'express' {
 
 const app = express();
 
+<<<<<<< HEAD
 
 // app.use(authenticateToken as RequestHandler);
+=======
+// export const handler = () => {
+//     start().then( () => {
+//         serverless(app)
+//         app.use(json());
+//         app.use("/users", usersRouter);
+//         app.use("/contacts", contactsRouter)
+//         app.use("/rooms", roomsRouter)
+//         app.use("/bookings", bookingsRouter)
+//     })
+    
+// } 
 
-app.use("/users", usersRouter);
-app.use("/contacts", contactsRouter)
-app.use("/rooms", roomsRouter)
-app.use("/bookings", bookingsRouter)
+const corsOrigin : string = "http://localhost:5173";
 
-app.listen(3000 , () => {
-    console.log("Server is running")
-})
+const corsOptions = {
+    origin: corsOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+
+app.use(json());
+app.use(cors(corsOptions));
+app.use("/login", loginRouter)
+app.use("/users", authenticateToken as RequestHandler,  usersRouter);
+app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
+app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
+app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
+>>>>>>> bccfcd03589a91f78c3dd60e4257b14322bd346d
+
+
+const start = async () => {
+    try{
+        await mongoose.connect(
+            "mongodb+srv://juanluisavilacervera44:GV9nXFY1kI9mGi9R@mirandacluster.gsus0k2.mongodb.net/"
+        )
+    } catch (error){
+
+        console.error("error mongo: " , error);
+        process.exit(1);
+    }
+}
+start()
+app.listen(3000);
