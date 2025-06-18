@@ -25,10 +25,10 @@ const corsOptions = {
 app.use(json());
 app.use(cors(corsOptions));
 app.use("/login", loginRouter)
-// app.use("/users", authenticateToken as RequestHandler,  usersRouter);
-// app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
-// app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
-// app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
+app.use("/users", authenticateToken as RequestHandler,  usersRouter);
+app.use("/contacts",authenticateToken as RequestHandler, contactsRouter);
+app.use("/rooms", authenticateToken as RequestHandler, roomsRouter);
+app.use("/bookings",authenticateToken as RequestHandler , bookingsRouter);
 
 
 const start = async () => {
