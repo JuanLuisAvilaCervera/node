@@ -14,7 +14,7 @@ package:
 provider:
   name: aws
   region: eu-west-3
-  runtime: nodejs22.x
+  runtime: nodejs20.x
 functions:
   app:
     handler: dist/index.handler
